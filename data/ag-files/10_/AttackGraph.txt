@@ -1,0 +1,1256 @@
+1,"execCode('10.10.10.1',root)","OR",0
+2,"RULE 1 (local exploit)","AND",0
+3,"vulExists('10.10.10.1','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+2,3,-1
+4,"execCode('10.10.10.1',someUser)","OR",0
+5,"RULE 2 (remote exploit of a server program)","AND",0
+6,"netAccess('10.10.10.1',tcp,'22')","OR",0
+7,"RULE 6 (direct network access)","AND",0
+8,"hacl(internet,'10.10.10.1',tcp,'22')","LEAF",1
+7,8,-1
+9,"attackerLocated(internet)","LEAF",1
+7,9,-1
+6,7,-1
+5,6,-1
+10,"networkServiceInfo('10.10.10.1',openssh,tcp,'22',someUser)","LEAF",1
+5,10,-1
+11,"vulExists('10.10.10.1','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+5,11,-1
+4,5,-1
+12,"RULE 2 (remote exploit of a server program)","AND",0
+13,"netAccess('10.10.10.1',tcp,'25')","OR",0
+14,"RULE 6 (direct network access)","AND",0
+15,"hacl(internet,'10.10.10.1',tcp,'25')","LEAF",1
+14,15,-1
+14,9,-1
+13,14,-1
+12,13,-1
+16,"networkServiceInfo('10.10.10.1',safari,tcp,'25',someUser)","LEAF",1
+12,16,-1
+17,"vulExists('10.10.10.1','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+12,17,-1
+4,12,-1
+2,4,-1
+1,2,-1
+18,"execCode('10.10.10.1',user)","OR",0
+19,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+20,"canAccessHost('10.10.10.1')","OR",0
+21,"RULE 8 (Access a host through executing code on the machine)","AND",0
+21,1,-1
+20,21,-1
+22,"RULE 8 (Access a host through executing code on the machine)","AND",0
+22,4,-1
+20,22,-1
+19,20,-1
+23,"hasAccount('10.10.10.1_victim','10.10.10.1',user)","LEAF",1
+19,23,-1
+24,"principalCompromised('10.10.10.1_victim')","OR",0
+25,"RULE 11 (password sniffing)","AND",0
+25,1,-1
+25,23,-1
+24,25,-1
+19,24,-1
+18,19,-1
+26,"execCode('10.10.10.13',someUser)","OR",0
+27,"RULE 2 (remote exploit of a server program)","AND",0
+28,"netAccess('10.10.10.13',tcp,'25')","OR",0
+29,"RULE 5 (multi-hop access)","AND",0
+30,"hacl('10.10.10.1','10.10.10.13',tcp,'25')","LEAF",1
+29,30,-1
+29,1,-1
+28,29,-1
+31,"RULE 5 (multi-hop access)","AND",0
+31,30,-1
+31,4,-1
+28,31,-1
+32,"RULE 5 (multi-hop access)","AND",0
+32,30,-1
+32,18,-1
+28,32,-1
+33,"RULE 5 (multi-hop access)","AND",0
+34,"hacl('10.10.10.2','10.10.10.13',tcp,'25')","LEAF",1
+33,34,-1
+35,"execCode('10.10.10.2',root)","OR",0
+36,"RULE 1 (local exploit)","AND",0
+37,"vulExists('10.10.10.2','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+36,37,-1
+38,"execCode('10.10.10.2',someUser)","OR",0
+39,"RULE 2 (remote exploit of a server program)","AND",0
+40,"netAccess('10.10.10.2',tcp,'22')","OR",0
+41,"RULE 5 (multi-hop access)","AND",0
+42,"hacl('10.10.10.1','10.10.10.2',tcp,'22')","LEAF",1
+41,42,-1
+41,1,-1
+40,41,-1
+43,"RULE 5 (multi-hop access)","AND",0
+43,42,-1
+43,4,-1
+40,43,-1
+44,"RULE 5 (multi-hop access)","AND",0
+44,42,-1
+44,18,-1
+40,44,-1
+45,"RULE 6 (direct network access)","AND",0
+46,"hacl(internet,'10.10.10.2',tcp,'22')","LEAF",1
+45,46,-1
+45,9,-1
+40,45,-1
+39,40,-1
+47,"networkServiceInfo('10.10.10.2',openssh,tcp,'22',someUser)","LEAF",1
+39,47,-1
+48,"vulExists('10.10.10.2','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+39,48,-1
+38,39,-1
+49,"RULE 2 (remote exploit of a server program)","AND",0
+50,"netAccess('10.10.10.2',tcp,'25')","OR",0
+51,"RULE 5 (multi-hop access)","AND",0
+52,"hacl('10.10.10.1','10.10.10.2',tcp,'25')","LEAF",1
+51,52,-1
+51,1,-1
+50,51,-1
+53,"RULE 5 (multi-hop access)","AND",0
+53,52,-1
+53,4,-1
+50,53,-1
+54,"RULE 5 (multi-hop access)","AND",0
+54,52,-1
+54,18,-1
+50,54,-1
+55,"RULE 6 (direct network access)","AND",0
+56,"hacl(internet,'10.10.10.2',tcp,'25')","LEAF",1
+55,56,-1
+55,9,-1
+50,55,-1
+49,50,-1
+57,"networkServiceInfo('10.10.10.2',safari,tcp,'25',someUser)","LEAF",1
+49,57,-1
+58,"vulExists('10.10.10.2','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+49,58,-1
+38,49,-1
+36,38,-1
+35,36,-1
+33,35,-1
+28,33,-1
+59,"RULE 5 (multi-hop access)","AND",0
+59,34,-1
+59,38,-1
+28,59,-1
+60,"RULE 5 (multi-hop access)","AND",0
+60,34,-1
+61,"execCode('10.10.10.2',user)","OR",0
+62,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+63,"canAccessHost('10.10.10.2')","OR",0
+64,"RULE 8 (Access a host through executing code on the machine)","AND",0
+64,35,-1
+63,64,-1
+65,"RULE 8 (Access a host through executing code on the machine)","AND",0
+65,38,-1
+63,65,-1
+62,63,-1
+66,"hasAccount('10.10.10.2_victim','10.10.10.2',user)","LEAF",1
+62,66,-1
+67,"principalCompromised('10.10.10.2_victim')","OR",0
+68,"RULE 11 (password sniffing)","AND",0
+68,35,-1
+68,66,-1
+67,68,-1
+62,67,-1
+61,62,-1
+60,61,-1
+28,60,-1
+69,"RULE 5 (multi-hop access)","AND",0
+70,"hacl('10.10.10.21','10.10.10.13',tcp,'25')","LEAF",1
+69,70,-1
+71,"execCode('10.10.10.21',root)","OR",0
+72,"RULE 1 (local exploit)","AND",0
+73,"vulExists('10.10.10.21','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+72,73,-1
+74,"execCode('10.10.10.21',someUser)","OR",0
+75,"RULE 2 (remote exploit of a server program)","AND",0
+76,"netAccess('10.10.10.21',tcp,'22')","OR",0
+77,"RULE 5 (multi-hop access)","AND",0
+78,"hacl('10.10.10.1','10.10.10.21',tcp,'22')","LEAF",1
+77,78,-1
+77,1,-1
+76,77,-1
+79,"RULE 5 (multi-hop access)","AND",0
+79,78,-1
+79,4,-1
+76,79,-1
+80,"RULE 5 (multi-hop access)","AND",0
+80,78,-1
+80,18,-1
+76,80,-1
+81,"RULE 5 (multi-hop access)","AND",0
+82,"hacl('10.10.10.2','10.10.10.21',tcp,'22')","LEAF",1
+81,82,-1
+81,35,-1
+76,81,-1
+83,"RULE 5 (multi-hop access)","AND",0
+83,82,-1
+83,38,-1
+76,83,-1
+84,"RULE 5 (multi-hop access)","AND",0
+84,82,-1
+84,61,-1
+76,84,-1
+85,"RULE 5 (multi-hop access)","AND",0
+86,"hacl('10.10.10.3','10.10.10.21',tcp,'22')","LEAF",1
+85,86,-1
+87,"execCode('10.10.10.3',root)","OR",0
+88,"RULE 1 (local exploit)","AND",0
+89,"vulExists('10.10.10.3','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+88,89,-1
+90,"execCode('10.10.10.3',someUser)","OR",0
+91,"RULE 2 (remote exploit of a server program)","AND",0
+92,"netAccess('10.10.10.3',tcp,'22')","OR",0
+93,"RULE 5 (multi-hop access)","AND",0
+94,"hacl('10.10.10.1','10.10.10.3',tcp,'22')","LEAF",1
+93,94,-1
+93,1,-1
+92,93,-1
+95,"RULE 5 (multi-hop access)","AND",0
+95,94,-1
+95,4,-1
+92,95,-1
+96,"RULE 5 (multi-hop access)","AND",0
+96,94,-1
+96,18,-1
+92,96,-1
+97,"RULE 5 (multi-hop access)","AND",0
+98,"hacl('10.10.10.2','10.10.10.3',tcp,'22')","LEAF",1
+97,98,-1
+97,35,-1
+92,97,-1
+99,"RULE 5 (multi-hop access)","AND",0
+99,98,-1
+99,38,-1
+92,99,-1
+100,"RULE 5 (multi-hop access)","AND",0
+100,98,-1
+100,61,-1
+92,100,-1
+101,"RULE 6 (direct network access)","AND",0
+102,"hacl(internet,'10.10.10.3',tcp,'22')","LEAF",1
+101,102,-1
+101,9,-1
+92,101,-1
+91,92,-1
+103,"networkServiceInfo('10.10.10.3',openssh,tcp,'22',someUser)","LEAF",1
+91,103,-1
+104,"vulExists('10.10.10.3','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+91,104,-1
+90,91,-1
+105,"RULE 2 (remote exploit of a server program)","AND",0
+106,"netAccess('10.10.10.3',tcp,'25')","OR",0
+107,"RULE 5 (multi-hop access)","AND",0
+108,"hacl('10.10.10.1','10.10.10.3',tcp,'25')","LEAF",1
+107,108,-1
+107,1,-1
+106,107,-1
+109,"RULE 5 (multi-hop access)","AND",0
+109,108,-1
+109,4,-1
+106,109,-1
+110,"RULE 5 (multi-hop access)","AND",0
+110,108,-1
+110,18,-1
+106,110,-1
+111,"RULE 5 (multi-hop access)","AND",0
+112,"hacl('10.10.10.2','10.10.10.3',tcp,'25')","LEAF",1
+111,112,-1
+111,35,-1
+106,111,-1
+113,"RULE 5 (multi-hop access)","AND",0
+113,112,-1
+113,38,-1
+106,113,-1
+114,"RULE 5 (multi-hop access)","AND",0
+114,112,-1
+114,61,-1
+106,114,-1
+115,"RULE 6 (direct network access)","AND",0
+116,"hacl(internet,'10.10.10.3',tcp,'25')","LEAF",1
+115,116,-1
+115,9,-1
+106,115,-1
+105,106,-1
+117,"networkServiceInfo('10.10.10.3',safari,tcp,'25',someUser)","LEAF",1
+105,117,-1
+118,"vulExists('10.10.10.3','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+105,118,-1
+90,105,-1
+88,90,-1
+87,88,-1
+85,87,-1
+76,85,-1
+119,"RULE 5 (multi-hop access)","AND",0
+119,86,-1
+119,90,-1
+76,119,-1
+120,"RULE 5 (multi-hop access)","AND",0
+120,86,-1
+121,"execCode('10.10.10.3',user)","OR",0
+122,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+123,"canAccessHost('10.10.10.3')","OR",0
+124,"RULE 8 (Access a host through executing code on the machine)","AND",0
+124,87,-1
+123,124,-1
+125,"RULE 8 (Access a host through executing code on the machine)","AND",0
+125,90,-1
+123,125,-1
+122,123,-1
+126,"hasAccount('10.10.10.3_victim','10.10.10.3',user)","LEAF",1
+122,126,-1
+127,"principalCompromised('10.10.10.3_victim')","OR",0
+128,"RULE 11 (password sniffing)","AND",0
+128,87,-1
+128,126,-1
+127,128,-1
+122,127,-1
+121,122,-1
+120,121,-1
+76,120,-1
+129,"RULE 6 (direct network access)","AND",0
+130,"hacl(internet,'10.10.10.21',tcp,'22')","LEAF",1
+129,130,-1
+129,9,-1
+76,129,-1
+75,76,-1
+131,"networkServiceInfo('10.10.10.21',openssh,tcp,'22',someUser)","LEAF",1
+75,131,-1
+132,"vulExists('10.10.10.21','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+75,132,-1
+74,75,-1
+133,"RULE 2 (remote exploit of a server program)","AND",0
+134,"netAccess('10.10.10.21',tcp,'25')","OR",0
+135,"RULE 5 (multi-hop access)","AND",0
+136,"hacl('10.10.10.1','10.10.10.21',tcp,'25')","LEAF",1
+135,136,-1
+135,1,-1
+134,135,-1
+137,"RULE 5 (multi-hop access)","AND",0
+137,136,-1
+137,4,-1
+134,137,-1
+138,"RULE 5 (multi-hop access)","AND",0
+138,136,-1
+138,18,-1
+134,138,-1
+139,"RULE 5 (multi-hop access)","AND",0
+140,"hacl('10.10.10.2','10.10.10.21',tcp,'25')","LEAF",1
+139,140,-1
+139,35,-1
+134,139,-1
+141,"RULE 5 (multi-hop access)","AND",0
+141,140,-1
+141,38,-1
+134,141,-1
+142,"RULE 5 (multi-hop access)","AND",0
+142,140,-1
+142,61,-1
+134,142,-1
+143,"RULE 5 (multi-hop access)","AND",0
+144,"hacl('10.10.10.3','10.10.10.21',tcp,'25')","LEAF",1
+143,144,-1
+143,87,-1
+134,143,-1
+145,"RULE 5 (multi-hop access)","AND",0
+145,144,-1
+145,90,-1
+134,145,-1
+146,"RULE 5 (multi-hop access)","AND",0
+146,144,-1
+146,121,-1
+134,146,-1
+147,"RULE 6 (direct network access)","AND",0
+148,"hacl(internet,'10.10.10.21',tcp,'25')","LEAF",1
+147,148,-1
+147,9,-1
+134,147,-1
+133,134,-1
+149,"networkServiceInfo('10.10.10.21',safari,tcp,'25',someUser)","LEAF",1
+133,149,-1
+150,"vulExists('10.10.10.21','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+133,150,-1
+74,133,-1
+72,74,-1
+71,72,-1
+69,71,-1
+28,69,-1
+151,"RULE 5 (multi-hop access)","AND",0
+151,70,-1
+151,74,-1
+28,151,-1
+152,"RULE 5 (multi-hop access)","AND",0
+152,70,-1
+153,"execCode('10.10.10.21',user)","OR",0
+154,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+155,"canAccessHost('10.10.10.21')","OR",0
+156,"RULE 8 (Access a host through executing code on the machine)","AND",0
+156,71,-1
+155,156,-1
+157,"RULE 8 (Access a host through executing code on the machine)","AND",0
+157,74,-1
+155,157,-1
+154,155,-1
+158,"hasAccount('10.10.10.21_victim','10.10.10.21',user)","LEAF",1
+154,158,-1
+159,"principalCompromised('10.10.10.21_victim')","OR",0
+160,"RULE 11 (password sniffing)","AND",0
+160,71,-1
+160,158,-1
+159,160,-1
+154,159,-1
+153,154,-1
+152,153,-1
+28,152,-1
+161,"RULE 5 (multi-hop access)","AND",0
+162,"hacl('10.10.10.22','10.10.10.13',tcp,'25')","LEAF",1
+161,162,-1
+163,"execCode('10.10.10.22',root)","OR",0
+164,"RULE 1 (local exploit)","AND",0
+165,"vulExists('10.10.10.22','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+164,165,-1
+166,"execCode('10.10.10.22',someUser)","OR",0
+167,"RULE 2 (remote exploit of a server program)","AND",0
+168,"netAccess('10.10.10.22',tcp,'22')","OR",0
+169,"RULE 5 (multi-hop access)","AND",0
+170,"hacl('10.10.10.1','10.10.10.22',tcp,'22')","LEAF",1
+169,170,-1
+169,1,-1
+168,169,-1
+171,"RULE 5 (multi-hop access)","AND",0
+171,170,-1
+171,4,-1
+168,171,-1
+172,"RULE 5 (multi-hop access)","AND",0
+172,170,-1
+172,18,-1
+168,172,-1
+173,"RULE 5 (multi-hop access)","AND",0
+174,"hacl('10.10.10.2','10.10.10.22',tcp,'22')","LEAF",1
+173,174,-1
+173,35,-1
+168,173,-1
+175,"RULE 5 (multi-hop access)","AND",0
+175,174,-1
+175,38,-1
+168,175,-1
+176,"RULE 5 (multi-hop access)","AND",0
+176,174,-1
+176,61,-1
+168,176,-1
+177,"RULE 5 (multi-hop access)","AND",0
+178,"hacl('10.10.10.21','10.10.10.22',tcp,'22')","LEAF",1
+177,178,-1
+177,71,-1
+168,177,-1
+179,"RULE 5 (multi-hop access)","AND",0
+179,178,-1
+179,74,-1
+168,179,-1
+180,"RULE 5 (multi-hop access)","AND",0
+180,178,-1
+180,153,-1
+168,180,-1
+181,"RULE 5 (multi-hop access)","AND",0
+182,"hacl('10.10.10.3','10.10.10.22',tcp,'22')","LEAF",1
+181,182,-1
+181,87,-1
+168,181,-1
+183,"RULE 5 (multi-hop access)","AND",0
+183,182,-1
+183,90,-1
+168,183,-1
+184,"RULE 5 (multi-hop access)","AND",0
+184,182,-1
+184,121,-1
+168,184,-1
+185,"RULE 6 (direct network access)","AND",0
+186,"hacl(internet,'10.10.10.22',tcp,'22')","LEAF",1
+185,186,-1
+185,9,-1
+168,185,-1
+167,168,-1
+187,"networkServiceInfo('10.10.10.22',openssh,tcp,'22',someUser)","LEAF",1
+167,187,-1
+188,"vulExists('10.10.10.22','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+167,188,-1
+166,167,-1
+189,"RULE 2 (remote exploit of a server program)","AND",0
+190,"netAccess('10.10.10.22',tcp,'25')","OR",0
+191,"RULE 5 (multi-hop access)","AND",0
+192,"hacl('10.10.10.1','10.10.10.22',tcp,'25')","LEAF",1
+191,192,-1
+191,1,-1
+190,191,-1
+193,"RULE 5 (multi-hop access)","AND",0
+193,192,-1
+193,4,-1
+190,193,-1
+194,"RULE 5 (multi-hop access)","AND",0
+194,192,-1
+194,18,-1
+190,194,-1
+195,"RULE 5 (multi-hop access)","AND",0
+196,"hacl('10.10.10.2','10.10.10.22',tcp,'25')","LEAF",1
+195,196,-1
+195,35,-1
+190,195,-1
+197,"RULE 5 (multi-hop access)","AND",0
+197,196,-1
+197,38,-1
+190,197,-1
+198,"RULE 5 (multi-hop access)","AND",0
+198,196,-1
+198,61,-1
+190,198,-1
+199,"RULE 5 (multi-hop access)","AND",0
+200,"hacl('10.10.10.21','10.10.10.22',tcp,'25')","LEAF",1
+199,200,-1
+199,71,-1
+190,199,-1
+201,"RULE 5 (multi-hop access)","AND",0
+201,200,-1
+201,74,-1
+190,201,-1
+202,"RULE 5 (multi-hop access)","AND",0
+202,200,-1
+202,153,-1
+190,202,-1
+203,"RULE 5 (multi-hop access)","AND",0
+204,"hacl('10.10.10.3','10.10.10.22',tcp,'25')","LEAF",1
+203,204,-1
+203,87,-1
+190,203,-1
+205,"RULE 5 (multi-hop access)","AND",0
+205,204,-1
+205,90,-1
+190,205,-1
+206,"RULE 5 (multi-hop access)","AND",0
+206,204,-1
+206,121,-1
+190,206,-1
+207,"RULE 6 (direct network access)","AND",0
+208,"hacl(internet,'10.10.10.22',tcp,'25')","LEAF",1
+207,208,-1
+207,9,-1
+190,207,-1
+189,190,-1
+209,"networkServiceInfo('10.10.10.22',safari,tcp,'25',someUser)","LEAF",1
+189,209,-1
+210,"vulExists('10.10.10.22','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+189,210,-1
+166,189,-1
+164,166,-1
+163,164,-1
+161,163,-1
+28,161,-1
+211,"RULE 5 (multi-hop access)","AND",0
+211,162,-1
+211,166,-1
+28,211,-1
+212,"RULE 5 (multi-hop access)","AND",0
+212,162,-1
+213,"execCode('10.10.10.22',user)","OR",0
+214,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+215,"canAccessHost('10.10.10.22')","OR",0
+216,"RULE 8 (Access a host through executing code on the machine)","AND",0
+216,163,-1
+215,216,-1
+217,"RULE 8 (Access a host through executing code on the machine)","AND",0
+217,166,-1
+215,217,-1
+214,215,-1
+218,"hasAccount('10.10.10.22_victim','10.10.10.22',user)","LEAF",1
+214,218,-1
+219,"principalCompromised('10.10.10.22_victim')","OR",0
+220,"RULE 11 (password sniffing)","AND",0
+220,163,-1
+220,218,-1
+219,220,-1
+214,219,-1
+213,214,-1
+212,213,-1
+28,212,-1
+221,"RULE 5 (multi-hop access)","AND",0
+222,"hacl('10.10.10.23','10.10.10.13',tcp,'25')","LEAF",1
+221,222,-1
+223,"execCode('10.10.10.23',root)","OR",0
+224,"RULE 1 (local exploit)","AND",0
+225,"vulExists('10.10.10.23','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+224,225,-1
+226,"execCode('10.10.10.23',someUser)","OR",0
+227,"RULE 2 (remote exploit of a server program)","AND",0
+228,"netAccess('10.10.10.23',tcp,'22')","OR",0
+229,"RULE 5 (multi-hop access)","AND",0
+230,"hacl('10.10.10.1','10.10.10.23',tcp,'22')","LEAF",1
+229,230,-1
+229,1,-1
+228,229,-1
+231,"RULE 5 (multi-hop access)","AND",0
+231,230,-1
+231,4,-1
+228,231,-1
+232,"RULE 5 (multi-hop access)","AND",0
+232,230,-1
+232,18,-1
+228,232,-1
+233,"RULE 5 (multi-hop access)","AND",0
+234,"hacl('10.10.10.2','10.10.10.23',tcp,'22')","LEAF",1
+233,234,-1
+233,35,-1
+228,233,-1
+235,"RULE 5 (multi-hop access)","AND",0
+235,234,-1
+235,38,-1
+228,235,-1
+236,"RULE 5 (multi-hop access)","AND",0
+236,234,-1
+236,61,-1
+228,236,-1
+237,"RULE 5 (multi-hop access)","AND",0
+238,"hacl('10.10.10.21','10.10.10.23',tcp,'22')","LEAF",1
+237,238,-1
+237,71,-1
+228,237,-1
+239,"RULE 5 (multi-hop access)","AND",0
+239,238,-1
+239,74,-1
+228,239,-1
+240,"RULE 5 (multi-hop access)","AND",0
+240,238,-1
+240,153,-1
+228,240,-1
+241,"RULE 5 (multi-hop access)","AND",0
+242,"hacl('10.10.10.22','10.10.10.23',tcp,'22')","LEAF",1
+241,242,-1
+241,163,-1
+228,241,-1
+243,"RULE 5 (multi-hop access)","AND",0
+243,242,-1
+243,166,-1
+228,243,-1
+244,"RULE 5 (multi-hop access)","AND",0
+244,242,-1
+244,213,-1
+228,244,-1
+245,"RULE 5 (multi-hop access)","AND",0
+246,"hacl('10.10.10.3','10.10.10.23',tcp,'22')","LEAF",1
+245,246,-1
+245,87,-1
+228,245,-1
+247,"RULE 5 (multi-hop access)","AND",0
+247,246,-1
+247,90,-1
+228,247,-1
+248,"RULE 5 (multi-hop access)","AND",0
+248,246,-1
+248,121,-1
+228,248,-1
+249,"RULE 6 (direct network access)","AND",0
+250,"hacl(internet,'10.10.10.23',tcp,'22')","LEAF",1
+249,250,-1
+249,9,-1
+228,249,-1
+227,228,-1
+251,"networkServiceInfo('10.10.10.23',openssh,tcp,'22',someUser)","LEAF",1
+227,251,-1
+252,"vulExists('10.10.10.23','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+227,252,-1
+226,227,-1
+253,"RULE 2 (remote exploit of a server program)","AND",0
+254,"netAccess('10.10.10.23',tcp,'25')","OR",0
+255,"RULE 5 (multi-hop access)","AND",0
+256,"hacl('10.10.10.1','10.10.10.23',tcp,'25')","LEAF",1
+255,256,-1
+255,1,-1
+254,255,-1
+257,"RULE 5 (multi-hop access)","AND",0
+257,256,-1
+257,4,-1
+254,257,-1
+258,"RULE 5 (multi-hop access)","AND",0
+258,256,-1
+258,18,-1
+254,258,-1
+259,"RULE 5 (multi-hop access)","AND",0
+260,"hacl('10.10.10.2','10.10.10.23',tcp,'25')","LEAF",1
+259,260,-1
+259,35,-1
+254,259,-1
+261,"RULE 5 (multi-hop access)","AND",0
+261,260,-1
+261,38,-1
+254,261,-1
+262,"RULE 5 (multi-hop access)","AND",0
+262,260,-1
+262,61,-1
+254,262,-1
+263,"RULE 5 (multi-hop access)","AND",0
+264,"hacl('10.10.10.21','10.10.10.23',tcp,'25')","LEAF",1
+263,264,-1
+263,71,-1
+254,263,-1
+265,"RULE 5 (multi-hop access)","AND",0
+265,264,-1
+265,74,-1
+254,265,-1
+266,"RULE 5 (multi-hop access)","AND",0
+266,264,-1
+266,153,-1
+254,266,-1
+267,"RULE 5 (multi-hop access)","AND",0
+268,"hacl('10.10.10.22','10.10.10.23',tcp,'25')","LEAF",1
+267,268,-1
+267,163,-1
+254,267,-1
+269,"RULE 5 (multi-hop access)","AND",0
+269,268,-1
+269,166,-1
+254,269,-1
+270,"RULE 5 (multi-hop access)","AND",0
+270,268,-1
+270,213,-1
+254,270,-1
+271,"RULE 5 (multi-hop access)","AND",0
+272,"hacl('10.10.10.3','10.10.10.23',tcp,'25')","LEAF",1
+271,272,-1
+271,87,-1
+254,271,-1
+273,"RULE 5 (multi-hop access)","AND",0
+273,272,-1
+273,90,-1
+254,273,-1
+274,"RULE 5 (multi-hop access)","AND",0
+274,272,-1
+274,121,-1
+254,274,-1
+275,"RULE 6 (direct network access)","AND",0
+276,"hacl(internet,'10.10.10.23',tcp,'25')","LEAF",1
+275,276,-1
+275,9,-1
+254,275,-1
+253,254,-1
+277,"networkServiceInfo('10.10.10.23',safari,tcp,'25',someUser)","LEAF",1
+253,277,-1
+278,"vulExists('10.10.10.23','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+253,278,-1
+226,253,-1
+224,226,-1
+223,224,-1
+221,223,-1
+28,221,-1
+279,"RULE 5 (multi-hop access)","AND",0
+279,222,-1
+279,226,-1
+28,279,-1
+280,"RULE 5 (multi-hop access)","AND",0
+280,222,-1
+281,"execCode('10.10.10.23',user)","OR",0
+282,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+283,"canAccessHost('10.10.10.23')","OR",0
+284,"RULE 8 (Access a host through executing code on the machine)","AND",0
+284,223,-1
+283,284,-1
+285,"RULE 8 (Access a host through executing code on the machine)","AND",0
+285,226,-1
+283,285,-1
+282,283,-1
+286,"hasAccount('10.10.10.23_victim','10.10.10.23',user)","LEAF",1
+282,286,-1
+287,"principalCompromised('10.10.10.23_victim')","OR",0
+288,"RULE 11 (password sniffing)","AND",0
+288,223,-1
+288,286,-1
+287,288,-1
+282,287,-1
+281,282,-1
+280,281,-1
+28,280,-1
+289,"RULE 5 (multi-hop access)","AND",0
+290,"hacl('10.10.10.24','10.10.10.13',tcp,'25')","LEAF",1
+289,290,-1
+291,"execCode('10.10.10.24',root)","OR",0
+292,"RULE 1 (local exploit)","AND",0
+293,"vulExists('10.10.10.24','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+292,293,-1
+294,"execCode('10.10.10.24',someUser)","OR",0
+295,"RULE 2 (remote exploit of a server program)","AND",0
+296,"netAccess('10.10.10.24',tcp,'22')","OR",0
+297,"RULE 5 (multi-hop access)","AND",0
+298,"hacl('10.10.10.1','10.10.10.24',tcp,'22')","LEAF",1
+297,298,-1
+297,1,-1
+296,297,-1
+299,"RULE 5 (multi-hop access)","AND",0
+299,298,-1
+299,4,-1
+296,299,-1
+300,"RULE 5 (multi-hop access)","AND",0
+300,298,-1
+300,18,-1
+296,300,-1
+301,"RULE 5 (multi-hop access)","AND",0
+302,"hacl('10.10.10.2','10.10.10.24',tcp,'22')","LEAF",1
+301,302,-1
+301,35,-1
+296,301,-1
+303,"RULE 5 (multi-hop access)","AND",0
+303,302,-1
+303,38,-1
+296,303,-1
+304,"RULE 5 (multi-hop access)","AND",0
+304,302,-1
+304,61,-1
+296,304,-1
+305,"RULE 5 (multi-hop access)","AND",0
+306,"hacl('10.10.10.21','10.10.10.24',tcp,'22')","LEAF",1
+305,306,-1
+305,71,-1
+296,305,-1
+307,"RULE 5 (multi-hop access)","AND",0
+307,306,-1
+307,74,-1
+296,307,-1
+308,"RULE 5 (multi-hop access)","AND",0
+308,306,-1
+308,153,-1
+296,308,-1
+309,"RULE 5 (multi-hop access)","AND",0
+310,"hacl('10.10.10.22','10.10.10.24',tcp,'22')","LEAF",1
+309,310,-1
+309,163,-1
+296,309,-1
+311,"RULE 5 (multi-hop access)","AND",0
+311,310,-1
+311,166,-1
+296,311,-1
+312,"RULE 5 (multi-hop access)","AND",0
+312,310,-1
+312,213,-1
+296,312,-1
+313,"RULE 5 (multi-hop access)","AND",0
+314,"hacl('10.10.10.23','10.10.10.24',tcp,'22')","LEAF",1
+313,314,-1
+313,223,-1
+296,313,-1
+315,"RULE 5 (multi-hop access)","AND",0
+315,314,-1
+315,226,-1
+296,315,-1
+316,"RULE 5 (multi-hop access)","AND",0
+316,314,-1
+316,281,-1
+296,316,-1
+317,"RULE 5 (multi-hop access)","AND",0
+318,"hacl('10.10.10.3','10.10.10.24',tcp,'22')","LEAF",1
+317,318,-1
+317,87,-1
+296,317,-1
+319,"RULE 5 (multi-hop access)","AND",0
+319,318,-1
+319,90,-1
+296,319,-1
+320,"RULE 5 (multi-hop access)","AND",0
+320,318,-1
+320,121,-1
+296,320,-1
+321,"RULE 6 (direct network access)","AND",0
+322,"hacl(internet,'10.10.10.24',tcp,'22')","LEAF",1
+321,322,-1
+321,9,-1
+296,321,-1
+295,296,-1
+323,"networkServiceInfo('10.10.10.24',openssh,tcp,'22',someUser)","LEAF",1
+295,323,-1
+324,"vulExists('10.10.10.24','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+295,324,-1
+294,295,-1
+325,"RULE 2 (remote exploit of a server program)","AND",0
+326,"netAccess('10.10.10.24',tcp,'25')","OR",0
+327,"RULE 5 (multi-hop access)","AND",0
+328,"hacl('10.10.10.1','10.10.10.24',tcp,'25')","LEAF",1
+327,328,-1
+327,1,-1
+326,327,-1
+329,"RULE 5 (multi-hop access)","AND",0
+329,328,-1
+329,4,-1
+326,329,-1
+330,"RULE 5 (multi-hop access)","AND",0
+330,328,-1
+330,18,-1
+326,330,-1
+331,"RULE 5 (multi-hop access)","AND",0
+332,"hacl('10.10.10.2','10.10.10.24',tcp,'25')","LEAF",1
+331,332,-1
+331,35,-1
+326,331,-1
+333,"RULE 5 (multi-hop access)","AND",0
+333,332,-1
+333,38,-1
+326,333,-1
+334,"RULE 5 (multi-hop access)","AND",0
+334,332,-1
+334,61,-1
+326,334,-1
+335,"RULE 5 (multi-hop access)","AND",0
+336,"hacl('10.10.10.21','10.10.10.24',tcp,'25')","LEAF",1
+335,336,-1
+335,71,-1
+326,335,-1
+337,"RULE 5 (multi-hop access)","AND",0
+337,336,-1
+337,74,-1
+326,337,-1
+338,"RULE 5 (multi-hop access)","AND",0
+338,336,-1
+338,153,-1
+326,338,-1
+339,"RULE 5 (multi-hop access)","AND",0
+340,"hacl('10.10.10.22','10.10.10.24',tcp,'25')","LEAF",1
+339,340,-1
+339,163,-1
+326,339,-1
+341,"RULE 5 (multi-hop access)","AND",0
+341,340,-1
+341,166,-1
+326,341,-1
+342,"RULE 5 (multi-hop access)","AND",0
+342,340,-1
+342,213,-1
+326,342,-1
+343,"RULE 5 (multi-hop access)","AND",0
+344,"hacl('10.10.10.23','10.10.10.24',tcp,'25')","LEAF",1
+343,344,-1
+343,223,-1
+326,343,-1
+345,"RULE 5 (multi-hop access)","AND",0
+345,344,-1
+345,226,-1
+326,345,-1
+346,"RULE 5 (multi-hop access)","AND",0
+346,344,-1
+346,281,-1
+326,346,-1
+347,"RULE 5 (multi-hop access)","AND",0
+348,"hacl('10.10.10.3','10.10.10.24',tcp,'25')","LEAF",1
+347,348,-1
+347,87,-1
+326,347,-1
+349,"RULE 5 (multi-hop access)","AND",0
+349,348,-1
+349,90,-1
+326,349,-1
+350,"RULE 5 (multi-hop access)","AND",0
+350,348,-1
+350,121,-1
+326,350,-1
+351,"RULE 6 (direct network access)","AND",0
+352,"hacl(internet,'10.10.10.24',tcp,'25')","LEAF",1
+351,352,-1
+351,9,-1
+326,351,-1
+325,326,-1
+353,"networkServiceInfo('10.10.10.24',safari,tcp,'25',someUser)","LEAF",1
+325,353,-1
+354,"vulExists('10.10.10.24','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+325,354,-1
+294,325,-1
+292,294,-1
+291,292,-1
+289,291,-1
+28,289,-1
+355,"RULE 5 (multi-hop access)","AND",0
+355,290,-1
+355,294,-1
+28,355,-1
+356,"RULE 5 (multi-hop access)","AND",0
+356,290,-1
+357,"execCode('10.10.10.24',user)","OR",0
+358,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+359,"canAccessHost('10.10.10.24')","OR",0
+360,"RULE 8 (Access a host through executing code on the machine)","AND",0
+360,291,-1
+359,360,-1
+361,"RULE 8 (Access a host through executing code on the machine)","AND",0
+361,294,-1
+359,361,-1
+358,359,-1
+362,"hasAccount('10.10.10.24_victim','10.10.10.24',user)","LEAF",1
+358,362,-1
+363,"principalCompromised('10.10.10.24_victim')","OR",0
+364,"RULE 11 (password sniffing)","AND",0
+364,291,-1
+364,362,-1
+363,364,-1
+358,363,-1
+357,358,-1
+356,357,-1
+28,356,-1
+365,"RULE 5 (multi-hop access)","AND",0
+366,"hacl('10.10.10.3','10.10.10.13',tcp,'25')","LEAF",1
+365,366,-1
+365,87,-1
+28,365,-1
+367,"RULE 5 (multi-hop access)","AND",0
+367,366,-1
+367,90,-1
+28,367,-1
+368,"RULE 5 (multi-hop access)","AND",0
+368,366,-1
+368,121,-1
+28,368,-1
+369,"RULE 6 (direct network access)","AND",0
+370,"hacl(internet,'10.10.10.13',tcp,'25')","LEAF",1
+369,370,-1
+369,9,-1
+28,369,-1
+27,28,-1
+371,"networkServiceInfo('10.10.10.13',openssl,tcp,'25',someUser)","LEAF",1
+27,371,-1
+372,"vulExists('10.10.10.13','CVE-2016-0800',openssl,remoteExploit,privEscalation)","LEAF",1
+27,372,-1
+26,27,-1
+373,"RULE 2 (remote exploit of a server program)","AND",0
+374,"netAccess('10.10.10.13',tcp,'80')","OR",0
+375,"RULE 5 (multi-hop access)","AND",0
+376,"hacl('10.10.10.1','10.10.10.13',tcp,'80')","LEAF",1
+375,376,-1
+375,1,-1
+374,375,-1
+377,"RULE 5 (multi-hop access)","AND",0
+377,376,-1
+377,4,-1
+374,377,-1
+378,"RULE 5 (multi-hop access)","AND",0
+378,376,-1
+378,18,-1
+374,378,-1
+379,"RULE 5 (multi-hop access)","AND",0
+380,"hacl('10.10.10.2','10.10.10.13',tcp,'80')","LEAF",1
+379,380,-1
+379,35,-1
+374,379,-1
+381,"RULE 5 (multi-hop access)","AND",0
+381,380,-1
+381,38,-1
+374,381,-1
+382,"RULE 5 (multi-hop access)","AND",0
+382,380,-1
+382,61,-1
+374,382,-1
+383,"RULE 5 (multi-hop access)","AND",0
+384,"hacl('10.10.10.21','10.10.10.13',tcp,'80')","LEAF",1
+383,384,-1
+383,71,-1
+374,383,-1
+385,"RULE 5 (multi-hop access)","AND",0
+385,384,-1
+385,74,-1
+374,385,-1
+386,"RULE 5 (multi-hop access)","AND",0
+386,384,-1
+386,153,-1
+374,386,-1
+387,"RULE 5 (multi-hop access)","AND",0
+388,"hacl('10.10.10.22','10.10.10.13',tcp,'80')","LEAF",1
+387,388,-1
+387,163,-1
+374,387,-1
+389,"RULE 5 (multi-hop access)","AND",0
+389,388,-1
+389,166,-1
+374,389,-1
+390,"RULE 5 (multi-hop access)","AND",0
+390,388,-1
+390,213,-1
+374,390,-1
+391,"RULE 5 (multi-hop access)","AND",0
+392,"hacl('10.10.10.23','10.10.10.13',tcp,'80')","LEAF",1
+391,392,-1
+391,223,-1
+374,391,-1
+393,"RULE 5 (multi-hop access)","AND",0
+393,392,-1
+393,226,-1
+374,393,-1
+394,"RULE 5 (multi-hop access)","AND",0
+394,392,-1
+394,281,-1
+374,394,-1
+395,"RULE 5 (multi-hop access)","AND",0
+396,"hacl('10.10.10.24','10.10.10.13',tcp,'80')","LEAF",1
+395,396,-1
+395,291,-1
+374,395,-1
+397,"RULE 5 (multi-hop access)","AND",0
+397,396,-1
+397,294,-1
+374,397,-1
+398,"RULE 5 (multi-hop access)","AND",0
+398,396,-1
+398,357,-1
+374,398,-1
+399,"RULE 5 (multi-hop access)","AND",0
+400,"hacl('10.10.10.3','10.10.10.13',tcp,'80')","LEAF",1
+399,400,-1
+399,87,-1
+374,399,-1
+401,"RULE 5 (multi-hop access)","AND",0
+401,400,-1
+401,90,-1
+374,401,-1
+402,"RULE 5 (multi-hop access)","AND",0
+402,400,-1
+402,121,-1
+374,402,-1
+403,"RULE 6 (direct network access)","AND",0
+404,"hacl(internet,'10.10.10.13',tcp,'80')","LEAF",1
+403,404,-1
+403,9,-1
+374,403,-1
+373,374,-1
+405,"networkServiceInfo('10.10.10.13',http_server,tcp,'80',someUser)","LEAF",1
+373,405,-1
+406,"vulExists('10.10.10.13','CVE-2012-0053',http_server,remoteExploit,privEscalation)","LEAF",1
+373,406,-1
+26,373,-1
+407,"RULE 2 (remote exploit of a server program)","AND",0
+407,374,-1
+408,"networkServiceInfo('10.10.10.13',java_system_application_server,tcp,'80',someUser)","LEAF",1
+407,408,-1
+409,"vulExists('10.10.10.13','CVE-2010-0386',java_system_application_server,remoteExploit,privEscalation)","LEAF",1
+407,409,-1
+26,407,-1
+410,"RULE 2 (remote exploit of a server program)","AND",0
+411,"netAccess('10.10.10.13',tcp,'8180')","OR",0
+412,"RULE 5 (multi-hop access)","AND",0
+413,"hacl('10.10.10.1','10.10.10.13',tcp,'8180')","LEAF",1
+412,413,-1
+412,1,-1
+411,412,-1
+414,"RULE 5 (multi-hop access)","AND",0
+414,413,-1
+414,4,-1
+411,414,-1
+415,"RULE 5 (multi-hop access)","AND",0
+415,413,-1
+415,18,-1
+411,415,-1
+416,"RULE 5 (multi-hop access)","AND",0
+417,"hacl('10.10.10.2','10.10.10.13',tcp,'8180')","LEAF",1
+416,417,-1
+416,35,-1
+411,416,-1
+418,"RULE 5 (multi-hop access)","AND",0
+418,417,-1
+418,38,-1
+411,418,-1
+419,"RULE 5 (multi-hop access)","AND",0
+419,417,-1
+419,61,-1
+411,419,-1
+420,"RULE 5 (multi-hop access)","AND",0
+421,"hacl('10.10.10.21','10.10.10.13',tcp,'8180')","LEAF",1
+420,421,-1
+420,71,-1
+411,420,-1
+422,"RULE 5 (multi-hop access)","AND",0
+422,421,-1
+422,74,-1
+411,422,-1
+423,"RULE 5 (multi-hop access)","AND",0
+423,421,-1
+423,153,-1
+411,423,-1
+424,"RULE 5 (multi-hop access)","AND",0
+425,"hacl('10.10.10.22','10.10.10.13',tcp,'8180')","LEAF",1
+424,425,-1
+424,163,-1
+411,424,-1
+426,"RULE 5 (multi-hop access)","AND",0
+426,425,-1
+426,166,-1
+411,426,-1
+427,"RULE 5 (multi-hop access)","AND",0
+427,425,-1
+427,213,-1
+411,427,-1
+428,"RULE 5 (multi-hop access)","AND",0
+429,"hacl('10.10.10.23','10.10.10.13',tcp,'8180')","LEAF",1
+428,429,-1
+428,223,-1
+411,428,-1
+430,"RULE 5 (multi-hop access)","AND",0
+430,429,-1
+430,226,-1
+411,430,-1
+431,"RULE 5 (multi-hop access)","AND",0
+431,429,-1
+431,281,-1
+411,431,-1
+432,"RULE 5 (multi-hop access)","AND",0
+433,"hacl('10.10.10.24','10.10.10.13',tcp,'8180')","LEAF",1
+432,433,-1
+432,291,-1
+411,432,-1
+434,"RULE 5 (multi-hop access)","AND",0
+434,433,-1
+434,294,-1
+411,434,-1
+435,"RULE 5 (multi-hop access)","AND",0
+435,433,-1
+435,357,-1
+411,435,-1
+436,"RULE 5 (multi-hop access)","AND",0
+437,"hacl('10.10.10.3','10.10.10.13',tcp,'8180')","LEAF",1
+436,437,-1
+436,87,-1
+411,436,-1
+438,"RULE 5 (multi-hop access)","AND",0
+438,437,-1
+438,90,-1
+411,438,-1
+439,"RULE 5 (multi-hop access)","AND",0
+439,437,-1
+439,121,-1
+411,439,-1
+440,"RULE 6 (direct network access)","AND",0
+441,"hacl(internet,'10.10.10.13',tcp,'8180')","LEAF",1
+440,441,-1
+440,9,-1
+411,440,-1
+410,411,-1
+442,"networkServiceInfo('10.10.10.13',tomcat,tcp,'8180',someUser)","LEAF",1
+410,442,-1
+443,"vulExists('10.10.10.13','CVE-2009-3548',tomcat,remoteExploit,privEscalation)","LEAF",1
+410,443,-1
+26,410,-1
+444,"execCode('10.10.10.14',someUser)","OR",0
+445,"RULE 2 (remote exploit of a server program)","AND",0
+446,"netAccess('10.10.10.14',tcp,'0')","OR",0
+447,"RULE 5 (multi-hop access)","AND",0
+448,"hacl('10.10.10.13','10.10.10.14',tcp,'0')","LEAF",1
+447,448,-1
+447,26,-1
+446,447,-1
+449,"RULE 6 (direct network access)","AND",0
+450,"hacl(internet,'10.10.10.14',tcp,'0')","LEAF",1
+449,450,-1
+449,9,-1
+446,449,-1
+445,446,-1
+451,"networkServiceInfo('10.10.10.14',pam_userdb,tcp,'0',someUser)","LEAF",1
+445,451,-1
+452,"vulExists('10.10.10.14','CVE-2013-7041',pam_userdb,remoteExploit,privEscalation)","LEAF",1
+445,452,-1
+444,445,-1
+453,"RULE 2 (remote exploit of a server program)","AND",0
+453,446,-1
+453,451,-1
+454,"vulExists('10.10.10.14','CVE-2016-6662',pam_userdb,remoteExploit,privEscalation)","LEAF",1
+453,454,-1
+444,453,-1

@@ -1,0 +1,107 @@
+/* VMs 1*/
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.4','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.4','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.4','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.4',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.4',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.4',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.5','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.5','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.5','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.5',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.5',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.5',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.6','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.6','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.6','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.6',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.6',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.6',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.7','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.7','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.7','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.7',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.7',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.7',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.8','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.8','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.8','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.8',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.8',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.8',openssh,tcp,'22',someUser).
+
+/* Access List 2 */
+inCompetent('10.10.10.4_victim').
+hasAccount('10.10.10.4_victim', '10.10.10.4', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.4', _)).
+inCompetent('10.10.10.5_victim').
+hasAccount('10.10.10.5_victim', '10.10.10.5', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.5', _)).
+inCompetent('10.10.10.6_victim').
+hasAccount('10.10.10.6_victim', '10.10.10.6', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.6', _)).
+inCompetent('10.10.10.7_victim').
+hasAccount('10.10.10.7_victim', '10.10.10.7', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.7', _)).
+inCompetent('10.10.10.8_victim').
+hasAccount('10.10.10.8_victim', '10.10.10.8', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.8', _)).
+
+hacl(internet,'10.10.10.4',_,_).
+hacl(internet,'10.10.10.5',_,_).
+hacl(internet,'10.10.10.6',_,_).
+hacl(internet,'10.10.10.7',_,_).
+hacl(internet,'10.10.10.8',_,_).
+
+hacl('10.10.10.4','10.10.10.5',_,_).
+hacl('10.10.10.4','10.10.10.6',_,_).
+hacl('10.10.10.5','10.10.10.6',_,_).
+hacl('10.10.10.4','10.10.10.7',_,_).
+hacl('10.10.10.5','10.10.10.7',_,_).
+hacl('10.10.10.6','10.10.10.7',_,_).
+hacl('10.10.10.4','10.10.10.8',_,_).
+hacl('10.10.10.5','10.10.10.8',_,_).
+hacl('10.10.10.6','10.10.10.8',_,_).
+hacl('10.10.10.7','10.10.10.8',_,_).
+
+
+

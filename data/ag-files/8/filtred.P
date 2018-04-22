@@ -1,0 +1,172 @@
+/* VMs */
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.1',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.1',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.1',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.2','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.2','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.2','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.2',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.2',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.2',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.3','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.3','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.3','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.3',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.3',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.3',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.21','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.21','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.21','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.21',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.21',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.21',openssh,tcp,'22',someUser).
+
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.22','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.22','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.22','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.22',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.22',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.22',openssh,tcp,'22',someUser).
+
+/* Servers */
+vulProperty('CVE-2012-0053',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2012-0053',http_server).
+cvss('CVE-2012-0053',m).
+vulProperty('CVE-2009-3548',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2009-3548',tomcat).
+cvss('CVE-2009-3548',l).
+vulProperty('CVE-2010-0386',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2010-0386',java_system_application_server).
+cvss('CVE-2010-0386',m).
+vulProperty('CVE-2016-0800',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2016-0800',openssl).
+cvss('CVE-2016-0800',m).
+vulExists('10.10.10.13','CVE-2015-8874',php).
+cvss('CVE-2015-8874',l).
+
+networkServiceInfo('10.10.10.13',http_server,tcp,'80',someUser).
+networkServiceInfo('10.10.10.13',tomcat,tcp,'8180',someUser).
+networkServiceInfo('10.10.10.13',java_system_application_server,tcp,'80',someUser).
+networkServiceInfo('10.10.10.13',openssl,tcp,'25',someUser).
+
+
+vulProperty('CVE-2016-3718',remoteExploit,privEscalation).
+vulExists('10.10.10.12','CVE-2016-3718',image_magic).
+cvss('CVE-2016-3718',m).
+vulProperty('CVE-2015-4108',remoteExploit,privEscalation).
+vulExists('10.10.10.12','CVE-2015-4108',ftp).
+cvss('CVE-2015-4108',m).
+vulProperty('CVE-2015-4107',remoteExploit,privEscalation).
+vulExists('10.10.10.12','CVE-2015-4107',ftp).
+cvss('CVE-2015-4107',m).
+/* */
+vulProperty('CVE-2013-7041',remoteExploit,privEscalation).
+vulExists('10.10.10.14','CVE-2013-7041',pam_userdb).
+cvss('CVE-2013-7041',m).
+vulProperty('CVE-2016-6662',remoteExploit,privEscalation).
+vulExists('10.10.10.14','CVE-2016-6662',pam_userdb).
+cvss('CVE-2016-6662',m).
+
+networkServiceInfo('10.10.10.14',pam_userdb,tcp,'0',someUser).
+
+inCompetent('10.10.10.1_victim').
+hasAccount('10.10.10.1_victim', '10.10.10.1', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.1', _)).
+inCompetent('10.10.10.2_victim').
+hasAccount('10.10.10.2_victim', '10.10.10.2', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.2', _)).
+inCompetent('10.10.10.3_victim').
+hasAccount('10.10.10.3_victim', '10.10.10.3', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.3', _)).
+
+inCompetent('10.10.10.21_victim').
+hasAccount('10.10.10.21_victim', '10.10.10.21', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.21', _)).
+inCompetent('10.10.10.22_victim').
+hasAccount('10.10.10.22_victim', '10.10.10.22', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.22', _)).
+
+inCompetent('10.10.10.13_victim').
+hasAccount('10.10.10.13_victim', '10.10.10.13', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.13', _)).
+inCompetent('10.10.10.12_victim').
+hasAccount('10.10.10.12_victim', '10.10.10.12', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.12', _)).
+inCompetent('10.10.10.14_victim').
+hasAccount('10.10.10.14_victim', '10.10.10.14', user).
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.14', _)).
+
+hacl(internet,'10.10.10.13',_,_).
+hacl(internet,'10.10.10.12',_,_).
+hacl(internet,'10.10.10.14',_,_).
+hacl(internet,'10.10.10.1',_,_).
+hacl(internet,'10.10.10.2',_,_).
+hacl(internet,'10.10.10.3',_,_).
+hacl(internet,'10.10.10.21',_,_).
+hacl(internet,'10.10.10.22',_,_).
+
+hacl('10.10.10.13','10.10.10.14',_,_).
+hacl('10.10.10.13','10.10.10.12',_,_).
+hacl('10.10.10.1','10.10.10.2',_,_).
+hacl('10.10.10.1','10.10.10.3',_,_).
+hacl('10.10.10.2','10.10.10.3',_,_).
+hacl('10.10.10.1','10.10.10.21',_,_).
+hacl('10.10.10.2','10.10.10.21',_,_).
+hacl('10.10.10.3','10.10.10.21',_,_).
+hacl('10.10.10.1','10.10.10.22',_,_).
+hacl('10.10.10.2','10.10.10.22',_,_).
+hacl('10.10.10.3','10.10.10.22',_,_).
+hacl('10.10.10.21','10.10.10.22',_,_).
+
+hacl('10.10.10.1','10.10.10.13',_,_).
+hacl('10.10.10.2','10.10.10.13',_,_).
+hacl('10.10.10.3','10.10.10.13',_,_).
+hacl('10.10.10.21','10.10.10.13',_,_).
+hacl('10.10.10.22','10.10.10.13',_,_).
+
+
+

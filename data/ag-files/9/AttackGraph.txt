@@ -1,0 +1,540 @@
+<1>||--execCode('10.10.10.1',root)
+   (2) RULE 1 : local exploit
+      [3]-vulExists('10.10.10.1','CVE-2013-2207',glibc,localExploit,privEscalation)
+      execCode('10.10.10.1',root)==><1>
+   (4) RULE 1 : local exploit
+      [3]-vulExists('10.10.10.1','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <5>||--execCode('10.10.10.1',someUser)
+         (6) RULE 2 : remote exploit of a server program
+            <7>|--netAccess('10.10.10.1',tcp,'22')
+               (8) RULE 6 : direct network access
+                  [9]-hacl(internet,'10.10.10.1',tcp,'22')
+                  [10]-attackerLocated(internet)
+            [11]-networkServiceInfo('10.10.10.1',openssh,tcp,'22',someUser)
+            [12]-vulExists('10.10.10.1','CVE-2008-5161',openssh,remoteExploit,privEscalation)
+         (13) RULE 2 : remote exploit of a server program
+            <14>|--netAccess('10.10.10.1',tcp,'25')
+               (15) RULE 6 : direct network access
+                  [16]-hacl(internet,'10.10.10.1',tcp,'25')
+                  [10]-attackerLocated(internet)
+            [17]-networkServiceInfo('10.10.10.1',safari,tcp,'25',someUser)
+            [18]-vulExists('10.10.10.1','CVE-2015-2808',safari,remoteExploit,privEscalation)
+   (19) RULE 1 : local exploit
+      [3]-vulExists('10.10.10.1','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <20>|--execCode('10.10.10.1',user)
+         (21) RULE 0 : When a principal is compromised any machine he has an account on will also be compromised
+            <22>||--canAccessHost('10.10.10.1')
+               (23) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.1',root)==><1>
+               (24) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.1',someUser)==><5>
+               (25) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.1',user)==><20>
+            [26]-hasAccount('10.10.10.1_victim','10.10.10.1',user)
+            <27>||--principalCompromised('10.10.10.1_victim')
+               (28) RULE 11 : password sniffing
+                  execCode('10.10.10.1',root)==><1>
+                  [26]-hasAccount('10.10.10.1_victim','10.10.10.1',user)
+               (29) RULE 12 : password sniffing
+                  execCode('10.10.10.1',user)==><20>
+                  [26]-hasAccount('10.10.10.1_victim','10.10.10.1',user)
+
+execCode('10.10.10.1',someUser)==><5>
+
+execCode('10.10.10.1',user)==><20>
+
+<30>||--execCode('10.10.10.2',root)
+   (31) RULE 1 : local exploit
+      [32]-vulExists('10.10.10.2','CVE-2013-2207',glibc,localExploit,privEscalation)
+      execCode('10.10.10.2',root)==><30>
+   (33) RULE 1 : local exploit
+      [32]-vulExists('10.10.10.2','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <34>||--execCode('10.10.10.2',someUser)
+         (35) RULE 2 : remote exploit of a server program
+            <36>||--netAccess('10.10.10.2',tcp,'22')
+               (37) RULE 5 : multi-hop access
+                  [38]-hacl('10.10.10.1','10.10.10.2',tcp,'22')
+                  execCode('10.10.10.1',root)==><1>
+               (39) RULE 5 : multi-hop access
+                  [38]-hacl('10.10.10.1','10.10.10.2',tcp,'22')
+                  execCode('10.10.10.1',someUser)==><5>
+               (40) RULE 5 : multi-hop access
+                  [38]-hacl('10.10.10.1','10.10.10.2',tcp,'22')
+                  execCode('10.10.10.1',user)==><20>
+               (41) RULE 6 : direct network access
+                  [42]-hacl(internet,'10.10.10.2',tcp,'22')
+                  [10]-attackerLocated(internet)
+            [43]-networkServiceInfo('10.10.10.2',openssh,tcp,'22',someUser)
+            [44]-vulExists('10.10.10.2','CVE-2008-5161',openssh,remoteExploit,privEscalation)
+         (45) RULE 2 : remote exploit of a server program
+            <46>||--netAccess('10.10.10.2',tcp,'25')
+               (47) RULE 5 : multi-hop access
+                  [48]-hacl('10.10.10.1','10.10.10.2',tcp,'25')
+                  execCode('10.10.10.1',root)==><1>
+               (49) RULE 5 : multi-hop access
+                  [48]-hacl('10.10.10.1','10.10.10.2',tcp,'25')
+                  execCode('10.10.10.1',someUser)==><5>
+               (50) RULE 5 : multi-hop access
+                  [48]-hacl('10.10.10.1','10.10.10.2',tcp,'25')
+                  execCode('10.10.10.1',user)==><20>
+               (51) RULE 6 : direct network access
+                  [52]-hacl(internet,'10.10.10.2',tcp,'25')
+                  [10]-attackerLocated(internet)
+            [53]-networkServiceInfo('10.10.10.2',safari,tcp,'25',someUser)
+            [54]-vulExists('10.10.10.2','CVE-2015-2808',safari,remoteExploit,privEscalation)
+   (55) RULE 1 : local exploit
+      [32]-vulExists('10.10.10.2','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <56>|--execCode('10.10.10.2',user)
+         (57) RULE 0 : When a principal is compromised any machine he has an account on will also be compromised
+            <58>||--canAccessHost('10.10.10.2')
+               (59) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.2',root)==><30>
+               (60) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.2',someUser)==><34>
+               (61) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.2',user)==><56>
+            [62]-hasAccount('10.10.10.2_victim','10.10.10.2',user)
+            <63>||--principalCompromised('10.10.10.2_victim')
+               (64) RULE 11 : password sniffing
+                  execCode('10.10.10.2',root)==><30>
+                  [62]-hasAccount('10.10.10.2_victim','10.10.10.2',user)
+               (65) RULE 12 : password sniffing
+                  execCode('10.10.10.2',user)==><56>
+                  [62]-hasAccount('10.10.10.2_victim','10.10.10.2',user)
+
+execCode('10.10.10.2',someUser)==><34>
+
+execCode('10.10.10.2',user)==><56>
+
+<66>||--execCode('10.10.10.21',root)
+   (67) RULE 1 : local exploit
+      [68]-vulExists('10.10.10.21','CVE-2013-2207',glibc,localExploit,privEscalation)
+      execCode('10.10.10.21',root)==><66>
+   (69) RULE 1 : local exploit
+      [68]-vulExists('10.10.10.21','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <70>||--execCode('10.10.10.21',someUser)
+         (71) RULE 2 : remote exploit of a server program
+            <72>||--netAccess('10.10.10.21',tcp,'22')
+               (73) RULE 5 : multi-hop access
+                  [74]-hacl('10.10.10.1','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.1',root)==><1>
+               (75) RULE 5 : multi-hop access
+                  [74]-hacl('10.10.10.1','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.1',someUser)==><5>
+               (76) RULE 5 : multi-hop access
+                  [74]-hacl('10.10.10.1','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.1',user)==><20>
+               (77) RULE 5 : multi-hop access
+                  [78]-hacl('10.10.10.2','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.2',root)==><30>
+               (79) RULE 5 : multi-hop access
+                  [78]-hacl('10.10.10.2','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.2',someUser)==><34>
+               (80) RULE 5 : multi-hop access
+                  [78]-hacl('10.10.10.2','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.2',user)==><56>
+               (81) RULE 5 : multi-hop access
+                  [82]-hacl('10.10.10.3','10.10.10.21',tcp,'22')
+                  <83>||--execCode('10.10.10.3',root)
+                     (84) RULE 1 : local exploit
+                        [85]-vulExists('10.10.10.3','CVE-2013-2207',glibc,localExploit,privEscalation)
+                        execCode('10.10.10.3',root)==><83>
+                     (86) RULE 1 : local exploit
+                        [85]-vulExists('10.10.10.3','CVE-2013-2207',glibc,localExploit,privEscalation)
+                        <87>||--execCode('10.10.10.3',someUser)
+                           (88) RULE 2 : remote exploit of a server program
+                              <89>||--netAccess('10.10.10.3',tcp,'22')
+                                 (90) RULE 5 : multi-hop access
+                                    [91]-hacl('10.10.10.1','10.10.10.3',tcp,'22')
+                                    execCode('10.10.10.1',root)==><1>
+                                 (92) RULE 5 : multi-hop access
+                                    [91]-hacl('10.10.10.1','10.10.10.3',tcp,'22')
+                                    execCode('10.10.10.1',someUser)==><5>
+                                 (93) RULE 5 : multi-hop access
+                                    [91]-hacl('10.10.10.1','10.10.10.3',tcp,'22')
+                                    execCode('10.10.10.1',user)==><20>
+                                 (94) RULE 5 : multi-hop access
+                                    [95]-hacl('10.10.10.2','10.10.10.3',tcp,'22')
+                                    execCode('10.10.10.2',root)==><30>
+                                 (96) RULE 5 : multi-hop access
+                                    [95]-hacl('10.10.10.2','10.10.10.3',tcp,'22')
+                                    execCode('10.10.10.2',someUser)==><34>
+                                 (97) RULE 5 : multi-hop access
+                                    [95]-hacl('10.10.10.2','10.10.10.3',tcp,'22')
+                                    execCode('10.10.10.2',user)==><56>
+                                 (98) RULE 6 : direct network access
+                                    [99]-hacl(internet,'10.10.10.3',tcp,'22')
+                                    [10]-attackerLocated(internet)
+                              [100]-networkServiceInfo('10.10.10.3',openssh,tcp,'22',someUser)
+                              [101]-vulExists('10.10.10.3','CVE-2008-5161',openssh,remoteExploit,privEscalation)
+                           (102) RULE 2 : remote exploit of a server program
+                              <103>||--netAccess('10.10.10.3',tcp,'25')
+                                 (104) RULE 5 : multi-hop access
+                                    [105]-hacl('10.10.10.1','10.10.10.3',tcp,'25')
+                                    execCode('10.10.10.1',root)==><1>
+                                 (106) RULE 5 : multi-hop access
+                                    [105]-hacl('10.10.10.1','10.10.10.3',tcp,'25')
+                                    execCode('10.10.10.1',someUser)==><5>
+                                 (107) RULE 5 : multi-hop access
+                                    [105]-hacl('10.10.10.1','10.10.10.3',tcp,'25')
+                                    execCode('10.10.10.1',user)==><20>
+                                 (108) RULE 5 : multi-hop access
+                                    [109]-hacl('10.10.10.2','10.10.10.3',tcp,'25')
+                                    execCode('10.10.10.2',root)==><30>
+                                 (110) RULE 5 : multi-hop access
+                                    [109]-hacl('10.10.10.2','10.10.10.3',tcp,'25')
+                                    execCode('10.10.10.2',someUser)==><34>
+                                 (111) RULE 5 : multi-hop access
+                                    [109]-hacl('10.10.10.2','10.10.10.3',tcp,'25')
+                                    execCode('10.10.10.2',user)==><56>
+                                 (112) RULE 6 : direct network access
+                                    [113]-hacl(internet,'10.10.10.3',tcp,'25')
+                                    [10]-attackerLocated(internet)
+                              [114]-networkServiceInfo('10.10.10.3',safari,tcp,'25',someUser)
+                              [115]-vulExists('10.10.10.3','CVE-2015-2808',safari,remoteExploit,privEscalation)
+                     (116) RULE 1 : local exploit
+                        [85]-vulExists('10.10.10.3','CVE-2013-2207',glibc,localExploit,privEscalation)
+                        <117>|--execCode('10.10.10.3',user)
+                           (118) RULE 0 : When a principal is compromised any machine he has an account on will also be compromised
+                              <119>||--canAccessHost('10.10.10.3')
+                                 (120) RULE 8 : Access a host through executing code on the machine
+                                    execCode('10.10.10.3',root)==><83>
+                                 (121) RULE 8 : Access a host through executing code on the machine
+                                    execCode('10.10.10.3',someUser)==><87>
+                                 (122) RULE 8 : Access a host through executing code on the machine
+                                    execCode('10.10.10.3',user)==><117>
+                              [123]-hasAccount('10.10.10.3_victim','10.10.10.3',user)
+                              <124>||--principalCompromised('10.10.10.3_victim')
+                                 (125) RULE 11 : password sniffing
+                                    execCode('10.10.10.3',root)==><83>
+                                    [123]-hasAccount('10.10.10.3_victim','10.10.10.3',user)
+                                 (126) RULE 12 : password sniffing
+                                    execCode('10.10.10.3',user)==><117>
+                                    [123]-hasAccount('10.10.10.3_victim','10.10.10.3',user)
+               (127) RULE 5 : multi-hop access
+                  [82]-hacl('10.10.10.3','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.3',someUser)==><87>
+               (128) RULE 5 : multi-hop access
+                  [82]-hacl('10.10.10.3','10.10.10.21',tcp,'22')
+                  execCode('10.10.10.3',user)==><117>
+               (129) RULE 6 : direct network access
+                  [130]-hacl(internet,'10.10.10.21',tcp,'22')
+                  [10]-attackerLocated(internet)
+            [131]-networkServiceInfo('10.10.10.21',openssh,tcp,'22',someUser)
+            [132]-vulExists('10.10.10.21','CVE-2008-5161',openssh,remoteExploit,privEscalation)
+         (133) RULE 2 : remote exploit of a server program
+            <134>||--netAccess('10.10.10.21',tcp,'25')
+               (135) RULE 5 : multi-hop access
+                  [136]-hacl('10.10.10.1','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.1',root)==><1>
+               (137) RULE 5 : multi-hop access
+                  [136]-hacl('10.10.10.1','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.1',someUser)==><5>
+               (138) RULE 5 : multi-hop access
+                  [136]-hacl('10.10.10.1','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.1',user)==><20>
+               (139) RULE 5 : multi-hop access
+                  [140]-hacl('10.10.10.2','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.2',root)==><30>
+               (141) RULE 5 : multi-hop access
+                  [140]-hacl('10.10.10.2','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.2',someUser)==><34>
+               (142) RULE 5 : multi-hop access
+                  [140]-hacl('10.10.10.2','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.2',user)==><56>
+               (143) RULE 5 : multi-hop access
+                  [144]-hacl('10.10.10.3','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.3',root)==><83>
+               (145) RULE 5 : multi-hop access
+                  [144]-hacl('10.10.10.3','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.3',someUser)==><87>
+               (146) RULE 5 : multi-hop access
+                  [144]-hacl('10.10.10.3','10.10.10.21',tcp,'25')
+                  execCode('10.10.10.3',user)==><117>
+               (147) RULE 6 : direct network access
+                  [148]-hacl(internet,'10.10.10.21',tcp,'25')
+                  [10]-attackerLocated(internet)
+            [149]-networkServiceInfo('10.10.10.21',safari,tcp,'25',someUser)
+            [150]-vulExists('10.10.10.21','CVE-2015-2808',safari,remoteExploit,privEscalation)
+   (151) RULE 1 : local exploit
+      [68]-vulExists('10.10.10.21','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <152>|--execCode('10.10.10.21',user)
+         (153) RULE 0 : When a principal is compromised any machine he has an account on will also be compromised
+            <154>||--canAccessHost('10.10.10.21')
+               (155) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.21',root)==><66>
+               (156) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.21',someUser)==><70>
+               (157) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.21',user)==><152>
+            [158]-hasAccount('10.10.10.21_victim','10.10.10.21',user)
+            <159>||--principalCompromised('10.10.10.21_victim')
+               (160) RULE 11 : password sniffing
+                  execCode('10.10.10.21',root)==><66>
+                  [158]-hasAccount('10.10.10.21_victim','10.10.10.21',user)
+               (161) RULE 12 : password sniffing
+                  execCode('10.10.10.21',user)==><152>
+                  [158]-hasAccount('10.10.10.21_victim','10.10.10.21',user)
+
+execCode('10.10.10.21',someUser)==><70>
+
+execCode('10.10.10.21',user)==><152>
+
+<162>||--execCode('10.10.10.22',root)
+   (163) RULE 1 : local exploit
+      [164]-vulExists('10.10.10.22','CVE-2013-2207',glibc,localExploit,privEscalation)
+      execCode('10.10.10.22',root)==><162>
+   (165) RULE 1 : local exploit
+      [164]-vulExists('10.10.10.22','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <166>||--execCode('10.10.10.22',someUser)
+         (167) RULE 2 : remote exploit of a server program
+            <168>||--netAccess('10.10.10.22',tcp,'22')
+               (169) RULE 5 : multi-hop access
+                  [170]-hacl('10.10.10.1','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.1',root)==><1>
+               (171) RULE 5 : multi-hop access
+                  [170]-hacl('10.10.10.1','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.1',someUser)==><5>
+               (172) RULE 5 : multi-hop access
+                  [170]-hacl('10.10.10.1','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.1',user)==><20>
+               (173) RULE 5 : multi-hop access
+                  [174]-hacl('10.10.10.2','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.2',root)==><30>
+               (175) RULE 5 : multi-hop access
+                  [174]-hacl('10.10.10.2','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.2',someUser)==><34>
+               (176) RULE 5 : multi-hop access
+                  [174]-hacl('10.10.10.2','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.2',user)==><56>
+               (177) RULE 5 : multi-hop access
+                  [178]-hacl('10.10.10.21','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.21',root)==><66>
+               (179) RULE 5 : multi-hop access
+                  [178]-hacl('10.10.10.21','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.21',someUser)==><70>
+               (180) RULE 5 : multi-hop access
+                  [178]-hacl('10.10.10.21','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.21',user)==><152>
+               (181) RULE 5 : multi-hop access
+                  [182]-hacl('10.10.10.3','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.3',root)==><83>
+               (183) RULE 5 : multi-hop access
+                  [182]-hacl('10.10.10.3','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.3',someUser)==><87>
+               (184) RULE 5 : multi-hop access
+                  [182]-hacl('10.10.10.3','10.10.10.22',tcp,'22')
+                  execCode('10.10.10.3',user)==><117>
+               (185) RULE 6 : direct network access
+                  [186]-hacl(internet,'10.10.10.22',tcp,'22')
+                  [10]-attackerLocated(internet)
+            [187]-networkServiceInfo('10.10.10.22',openssh,tcp,'22',someUser)
+            [188]-vulExists('10.10.10.22','CVE-2008-5161',openssh,remoteExploit,privEscalation)
+         (189) RULE 2 : remote exploit of a server program
+            <190>||--netAccess('10.10.10.22',tcp,'25')
+               (191) RULE 5 : multi-hop access
+                  [192]-hacl('10.10.10.1','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.1',root)==><1>
+               (193) RULE 5 : multi-hop access
+                  [192]-hacl('10.10.10.1','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.1',someUser)==><5>
+               (194) RULE 5 : multi-hop access
+                  [192]-hacl('10.10.10.1','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.1',user)==><20>
+               (195) RULE 5 : multi-hop access
+                  [196]-hacl('10.10.10.2','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.2',root)==><30>
+               (197) RULE 5 : multi-hop access
+                  [196]-hacl('10.10.10.2','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.2',someUser)==><34>
+               (198) RULE 5 : multi-hop access
+                  [196]-hacl('10.10.10.2','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.2',user)==><56>
+               (199) RULE 5 : multi-hop access
+                  [200]-hacl('10.10.10.21','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.21',root)==><66>
+               (201) RULE 5 : multi-hop access
+                  [200]-hacl('10.10.10.21','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.21',someUser)==><70>
+               (202) RULE 5 : multi-hop access
+                  [200]-hacl('10.10.10.21','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.21',user)==><152>
+               (203) RULE 5 : multi-hop access
+                  [204]-hacl('10.10.10.3','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.3',root)==><83>
+               (205) RULE 5 : multi-hop access
+                  [204]-hacl('10.10.10.3','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.3',someUser)==><87>
+               (206) RULE 5 : multi-hop access
+                  [204]-hacl('10.10.10.3','10.10.10.22',tcp,'25')
+                  execCode('10.10.10.3',user)==><117>
+               (207) RULE 6 : direct network access
+                  [208]-hacl(internet,'10.10.10.22',tcp,'25')
+                  [10]-attackerLocated(internet)
+            [209]-networkServiceInfo('10.10.10.22',safari,tcp,'25',someUser)
+            [210]-vulExists('10.10.10.22','CVE-2015-2808',safari,remoteExploit,privEscalation)
+   (211) RULE 1 : local exploit
+      [164]-vulExists('10.10.10.22','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <212>|--execCode('10.10.10.22',user)
+         (213) RULE 0 : When a principal is compromised any machine he has an account on will also be compromised
+            <214>||--canAccessHost('10.10.10.22')
+               (215) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.22',root)==><162>
+               (216) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.22',someUser)==><166>
+               (217) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.22',user)==><212>
+            [218]-hasAccount('10.10.10.22_victim','10.10.10.22',user)
+            <219>||--principalCompromised('10.10.10.22_victim')
+               (220) RULE 11 : password sniffing
+                  execCode('10.10.10.22',root)==><162>
+                  [218]-hasAccount('10.10.10.22_victim','10.10.10.22',user)
+               (221) RULE 12 : password sniffing
+                  execCode('10.10.10.22',user)==><212>
+                  [218]-hasAccount('10.10.10.22_victim','10.10.10.22',user)
+
+execCode('10.10.10.22',someUser)==><166>
+
+execCode('10.10.10.22',user)==><212>
+
+<222>||--execCode('10.10.10.23',root)
+   (223) RULE 1 : local exploit
+      [224]-vulExists('10.10.10.23','CVE-2013-2207',glibc,localExploit,privEscalation)
+      execCode('10.10.10.23',root)==><222>
+   (225) RULE 1 : local exploit
+      [224]-vulExists('10.10.10.23','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <226>||--execCode('10.10.10.23',someUser)
+         (227) RULE 2 : remote exploit of a server program
+            <228>||--netAccess('10.10.10.23',tcp,'22')
+               (229) RULE 5 : multi-hop access
+                  [230]-hacl('10.10.10.1','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.1',root)==><1>
+               (231) RULE 5 : multi-hop access
+                  [230]-hacl('10.10.10.1','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.1',someUser)==><5>
+               (232) RULE 5 : multi-hop access
+                  [230]-hacl('10.10.10.1','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.1',user)==><20>
+               (233) RULE 5 : multi-hop access
+                  [234]-hacl('10.10.10.2','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.2',root)==><30>
+               (235) RULE 5 : multi-hop access
+                  [234]-hacl('10.10.10.2','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.2',someUser)==><34>
+               (236) RULE 5 : multi-hop access
+                  [234]-hacl('10.10.10.2','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.2',user)==><56>
+               (237) RULE 5 : multi-hop access
+                  [238]-hacl('10.10.10.21','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.21',root)==><66>
+               (239) RULE 5 : multi-hop access
+                  [238]-hacl('10.10.10.21','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.21',someUser)==><70>
+               (240) RULE 5 : multi-hop access
+                  [238]-hacl('10.10.10.21','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.21',user)==><152>
+               (241) RULE 5 : multi-hop access
+                  [242]-hacl('10.10.10.22','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.22',root)==><162>
+               (243) RULE 5 : multi-hop access
+                  [242]-hacl('10.10.10.22','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.22',someUser)==><166>
+               (244) RULE 5 : multi-hop access
+                  [242]-hacl('10.10.10.22','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.22',user)==><212>
+               (245) RULE 5 : multi-hop access
+                  [246]-hacl('10.10.10.3','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.3',root)==><83>
+               (247) RULE 5 : multi-hop access
+                  [246]-hacl('10.10.10.3','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.3',someUser)==><87>
+               (248) RULE 5 : multi-hop access
+                  [246]-hacl('10.10.10.3','10.10.10.23',tcp,'22')
+                  execCode('10.10.10.3',user)==><117>
+               (249) RULE 6 : direct network access
+                  [250]-hacl(internet,'10.10.10.23',tcp,'22')
+                  [10]-attackerLocated(internet)
+            [251]-networkServiceInfo('10.10.10.23',openssh,tcp,'22',someUser)
+            [252]-vulExists('10.10.10.23','CVE-2008-5161',openssh,remoteExploit,privEscalation)
+         (253) RULE 2 : remote exploit of a server program
+            <254>||--netAccess('10.10.10.23',tcp,'25')
+               (255) RULE 5 : multi-hop access
+                  [256]-hacl('10.10.10.1','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.1',root)==><1>
+               (257) RULE 5 : multi-hop access
+                  [256]-hacl('10.10.10.1','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.1',someUser)==><5>
+               (258) RULE 5 : multi-hop access
+                  [256]-hacl('10.10.10.1','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.1',user)==><20>
+               (259) RULE 5 : multi-hop access
+                  [260]-hacl('10.10.10.2','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.2',root)==><30>
+               (261) RULE 5 : multi-hop access
+                  [260]-hacl('10.10.10.2','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.2',someUser)==><34>
+               (262) RULE 5 : multi-hop access
+                  [260]-hacl('10.10.10.2','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.2',user)==><56>
+               (263) RULE 5 : multi-hop access
+                  [264]-hacl('10.10.10.21','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.21',root)==><66>
+               (265) RULE 5 : multi-hop access
+                  [264]-hacl('10.10.10.21','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.21',someUser)==><70>
+               (266) RULE 5 : multi-hop access
+                  [264]-hacl('10.10.10.21','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.21',user)==><152>
+               (267) RULE 5 : multi-hop access
+                  [268]-hacl('10.10.10.22','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.22',root)==><162>
+               (269) RULE 5 : multi-hop access
+                  [268]-hacl('10.10.10.22','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.22',someUser)==><166>
+               (270) RULE 5 : multi-hop access
+                  [268]-hacl('10.10.10.22','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.22',user)==><212>
+               (271) RULE 5 : multi-hop access
+                  [272]-hacl('10.10.10.3','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.3',root)==><83>
+               (273) RULE 5 : multi-hop access
+                  [272]-hacl('10.10.10.3','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.3',someUser)==><87>
+               (274) RULE 5 : multi-hop access
+                  [272]-hacl('10.10.10.3','10.10.10.23',tcp,'25')
+                  execCode('10.10.10.3',user)==><117>
+               (275) RULE 6 : direct network access
+                  [276]-hacl(internet,'10.10.10.23',tcp,'25')
+                  [10]-attackerLocated(internet)
+            [277]-networkServiceInfo('10.10.10.23',safari,tcp,'25',someUser)
+            [278]-vulExists('10.10.10.23','CVE-2015-2808',safari,remoteExploit,privEscalation)
+   (279) RULE 1 : local exploit
+      [224]-vulExists('10.10.10.23','CVE-2013-2207',glibc,localExploit,privEscalation)
+      <280>|--execCode('10.10.10.23',user)
+         (281) RULE 0 : When a principal is compromised any machine he has an account on will also be compromised
+            <282>||--canAccessHost('10.10.10.23')
+               (283) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.23',root)==><222>
+               (284) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.23',someUser)==><226>
+               (285) RULE 8 : Access a host through executing code on the machine
+                  execCode('10.10.10.23',user)==><280>
+            [286]-hasAccount('10.10.10.23_victim','10.10.10.23',user)
+            <287>||--principalCompromised('10.10.10.23_victim')
+               (288) RULE 11 : password sniffing
+                  execCode('10.10.10.23',root)==><222>
+                  [286]-hasAccount('10.10.10.23_victim','10.10.10.23',user)
+               (289) RULE 12 : password sniffing
+                  execCode('10.10.10.23',user)==><280>
+                  [286]-hasAccount('10.10.10.23_victim','10.10.10.23',user)
+
+execCode('10.10.10.23',someUser)==><226>
+
+execCode('10.10.10.23',user)==><280>
+
+execCode('10.10.10.3',root)==><83>
+
+execCode('10.10.10.3',someUser)==><87>
+
+execCode('10.10.10.3',user)==><117>
+

@@ -1,0 +1,24 @@
+/* VMs */
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.1',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.1',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.1',openssh,tcp,'22',someUser).
+
+
+inCompetent('10.10.10.1_victim').
+hasAccount('10.10.10.1_victim', '10.10.10.1', user).
+
+attackerLocated(internet).
+attackGoal(execCode('10.10.10.1', _)).
+
+
+hacl(internet,'10.10.10.1',_,_).
+

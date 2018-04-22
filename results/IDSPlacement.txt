@@ -1,0 +1,7 @@
+Network Size	IDS Deployment Rate (k/N)	Type	Run 1 (Gbps)	Run 2 (Gbps)	Run 3 (Gbps)	Avg
+40			0			Linear	12		11		11.3		11.4333333333333
+40			0.25			Linear	10.3		10.7		11		10.6666666666667
+40			0.5			Linear	11.4		10.5		11.5		11.1333333333333
+40			0.75			Linear	11.5		11.4		9.9		10.9333333333333
+40			1			Linear	9.95		11.1		9.32		10.1233333333333
+

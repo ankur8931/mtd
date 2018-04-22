@@ -1,0 +1,47 @@
+/* VMs */
+vulProperty('CVE-2015-2808',remoteExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2015-2808',safari).
+cvss('CVE-2015-2808',m).
+vulProperty('CVE-2013-2207',localExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2013-2207',glibc).
+cvss('CVE-2013-2207',h).
+vulProperty('CVE-2008-5161',remoteExploit,privEscalation).
+vulExists('10.10.10.1','CVE-2008-5161',openssh).
+cvss('CVE-2008-5161',h).
+networkServiceInfo('10.10.10.1',safari,tcp,'25',someUser).
+networkServiceInfo('10.10.10.1',glibc,tcp,'0',someUser).
+networkServiceInfo('10.10.10.1',openssh,tcp,'22',someUser).
+
+/* Server web */
+vulProperty('CVE-2012-0053',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2012-0053',http_server).
+cvss('CVE-2012-0053',m).
+vulProperty('CVE-2009-3548',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2009-3548',tomcat).
+cvss('CVE-2009-3548',l).
+vulProperty('CVE-2010-0386',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2010-0386',java_system_application_server).
+cvss('CVE-2010-0386',m).
+vulProperty('CVE-2016-0800',remoteExploit,privEscalation).
+vulExists('10.10.10.13','CVE-2016-0800',openssl).
+cvss('CVE-2016-0800',m).
+vulExists('10.10.10.13','CVE-2015-8874',php).
+cvss('CVE-2015-8874',l).
+
+networkServiceInfo('10.10.10.13',http_server,tcp,'80',someUser).
+networkServiceInfo('10.10.10.13',tomcat,tcp,'8180',someUser).
+networkServiceInfo('10.10.10.13',java_system_application_server,tcp,'80',someUser).
+networkServiceInfo('10.10.10.13',openssl,tcp,'25',someUser).
+
+
+inCompetent('10.10.10.1_victim').
+hasAccount('10.10.10.1_victim', '10.10.10.1', user).
+
+inCompetent('10.10.10.13_victim').
+hasAccount('10.10.10.13_victim', '10.10.10.13', user).
+attackerLocated('10.10.10.1').
+attackGoal(execCode('10.10.10.13', _)).
+
+
+hacl('10.10.10.1','10.10.10.13',_,_).
+

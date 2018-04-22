@@ -1,0 +1,31 @@
+[xsb_configuration loaded]
+[sysinitrc loaded]
+[xsbbrat loaded]
+
+XSB Version 3.6. (Gazpatcho) of April 28, 2015
+[x86_64-unknown-linux-gnu 64 bits; mode: optimal; engine: slg-wam; scheduling: local]
+[Build date: 2016-05-30]
+
+| ?- [Compiling ./run]
+++Error[XSB/Runtime/P]: [Syntax] () )  <--- HERE? ************ 
+++                                
+Forward Continuation...
+... machine:xsb_backtrace/1  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/machine.xwam
+... xsb_read:iso_read_syntax_error/3  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/xsb_read.xwam
+... parse:my_read/2  From /home/ubuntu/Desktop/MULVAL/XSB/cmplib/parse.xwam
+... parse:parse_clauses/2  From /home/ubuntu/Desktop/MULVAL/XSB/cmplib/parse.xwam
+... parse:parse1/3  From /home/ubuntu/Desktop/MULVAL/XSB/cmplib/parse.xwam
+... parse:parse/4  From /home/ubuntu/Desktop/MULVAL/XSB/cmplib/parse.xwam
+... standard:call/1  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/standard.xwam
+... consult:compile_f/6  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/consult.xwam
+... consult:reconsult0/3  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/consult.xwam
+... x_interp:_$call/1  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/x_interp.xwam
+... x_interp:call_query/1  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/x_interp.xwam
+... standard:call/1  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/standard.xwam
+... standard:catch/3  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/standard.xwam
+... x_interp:interpreter/0  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/x_interp.xwam
+... loader:ll_code_call/3  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/loader.xwam
+... standard:call/1  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/standard.xwam
+... standard:catch/3  From /home/ubuntu/Desktop/MULVAL/XSB/syslib/standard.xwam
+| ?- 
+End XSB (cputime 0.01 secs, elapsetime 0.01 secs)

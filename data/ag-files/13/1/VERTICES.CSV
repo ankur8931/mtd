@@ -1,0 +1,265 @@
+1,"execCode('10.10.10.1',root)","OR",0
+2,"RULE 1 (local exploit)","AND",0
+3,"vulExists('10.10.10.1','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+4,"execCode('10.10.10.1',someUser)","OR",0
+5,"RULE 2 (remote exploit of a server program)","AND",0
+6,"netAccess('10.10.10.1',tcp,'22')","OR",0
+7,"RULE 6 (direct network access)","AND",0
+8,"hacl(internet,'10.10.10.1',tcp,'22')","LEAF",1
+9,"attackerLocated(internet)","LEAF",1
+10,"networkServiceInfo('10.10.10.1',openssh,tcp,'22',someUser)","LEAF",1
+11,"vulExists('10.10.10.1','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+12,"RULE 2 (remote exploit of a server program)","AND",0
+13,"netAccess('10.10.10.1',tcp,'25')","OR",0
+14,"RULE 6 (direct network access)","AND",0
+15,"hacl(internet,'10.10.10.1',tcp,'25')","LEAF",1
+16,"networkServiceInfo('10.10.10.1',safari,tcp,'25',someUser)","LEAF",1
+17,"vulExists('10.10.10.1','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+18,"execCode('10.10.10.1',user)","OR",0
+19,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+20,"canAccessHost('10.10.10.1')","OR",0
+21,"RULE 8 (Access a host through executing code on the machine)","AND",0
+22,"RULE 8 (Access a host through executing code on the machine)","AND",0
+23,"hasAccount('10.10.10.1_victim','10.10.10.1',user)","LEAF",1
+24,"principalCompromised('10.10.10.1_victim')","OR",0
+25,"RULE 11 (password sniffing)","AND",0
+26,"execCode('10.10.10.2',root)","OR",0
+27,"RULE 1 (local exploit)","AND",0
+28,"vulExists('10.10.10.2','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+29,"execCode('10.10.10.2',someUser)","OR",0
+30,"RULE 2 (remote exploit of a server program)","AND",0
+31,"netAccess('10.10.10.2',tcp,'22')","OR",0
+32,"RULE 5 (multi-hop access)","AND",0
+33,"hacl('10.10.10.1','10.10.10.2',tcp,'22')","LEAF",1
+34,"RULE 5 (multi-hop access)","AND",0
+35,"RULE 5 (multi-hop access)","AND",0
+36,"RULE 6 (direct network access)","AND",0
+37,"hacl(internet,'10.10.10.2',tcp,'22')","LEAF",1
+38,"networkServiceInfo('10.10.10.2',openssh,tcp,'22',someUser)","LEAF",1
+39,"vulExists('10.10.10.2','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+40,"RULE 2 (remote exploit of a server program)","AND",0
+41,"netAccess('10.10.10.2',tcp,'25')","OR",0
+42,"RULE 5 (multi-hop access)","AND",0
+43,"hacl('10.10.10.1','10.10.10.2',tcp,'25')","LEAF",1
+44,"RULE 5 (multi-hop access)","AND",0
+45,"RULE 5 (multi-hop access)","AND",0
+46,"RULE 6 (direct network access)","AND",0
+47,"hacl(internet,'10.10.10.2',tcp,'25')","LEAF",1
+48,"networkServiceInfo('10.10.10.2',safari,tcp,'25',someUser)","LEAF",1
+49,"vulExists('10.10.10.2','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+50,"execCode('10.10.10.2',user)","OR",0
+51,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+52,"canAccessHost('10.10.10.2')","OR",0
+53,"RULE 8 (Access a host through executing code on the machine)","AND",0
+54,"RULE 8 (Access a host through executing code on the machine)","AND",0
+55,"hasAccount('10.10.10.2_victim','10.10.10.2',user)","LEAF",1
+56,"principalCompromised('10.10.10.2_victim')","OR",0
+57,"RULE 11 (password sniffing)","AND",0
+58,"execCode('10.10.10.21',root)","OR",0
+59,"RULE 1 (local exploit)","AND",0
+60,"vulExists('10.10.10.21','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+61,"execCode('10.10.10.21',someUser)","OR",0
+62,"RULE 2 (remote exploit of a server program)","AND",0
+63,"netAccess('10.10.10.21',tcp,'22')","OR",0
+64,"RULE 5 (multi-hop access)","AND",0
+65,"hacl('10.10.10.1','10.10.10.21',tcp,'22')","LEAF",1
+66,"RULE 5 (multi-hop access)","AND",0
+67,"RULE 5 (multi-hop access)","AND",0
+68,"RULE 5 (multi-hop access)","AND",0
+69,"hacl('10.10.10.2','10.10.10.21',tcp,'22')","LEAF",1
+70,"RULE 5 (multi-hop access)","AND",0
+71,"RULE 5 (multi-hop access)","AND",0
+72,"RULE 5 (multi-hop access)","AND",0
+73,"hacl('10.10.10.3','10.10.10.21',tcp,'22')","LEAF",1
+74,"execCode('10.10.10.3',root)","OR",0
+75,"RULE 1 (local exploit)","AND",0
+76,"vulExists('10.10.10.3','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+77,"execCode('10.10.10.3',someUser)","OR",0
+78,"RULE 2 (remote exploit of a server program)","AND",0
+79,"netAccess('10.10.10.3',tcp,'22')","OR",0
+80,"RULE 5 (multi-hop access)","AND",0
+81,"hacl('10.10.10.1','10.10.10.3',tcp,'22')","LEAF",1
+82,"RULE 5 (multi-hop access)","AND",0
+83,"RULE 5 (multi-hop access)","AND",0
+84,"RULE 5 (multi-hop access)","AND",0
+85,"hacl('10.10.10.2','10.10.10.3',tcp,'22')","LEAF",1
+86,"RULE 5 (multi-hop access)","AND",0
+87,"RULE 5 (multi-hop access)","AND",0
+88,"RULE 6 (direct network access)","AND",0
+89,"hacl(internet,'10.10.10.3',tcp,'22')","LEAF",1
+90,"networkServiceInfo('10.10.10.3',openssh,tcp,'22',someUser)","LEAF",1
+91,"vulExists('10.10.10.3','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+92,"RULE 2 (remote exploit of a server program)","AND",0
+93,"netAccess('10.10.10.3',tcp,'25')","OR",0
+94,"RULE 5 (multi-hop access)","AND",0
+95,"hacl('10.10.10.1','10.10.10.3',tcp,'25')","LEAF",1
+96,"RULE 5 (multi-hop access)","AND",0
+97,"RULE 5 (multi-hop access)","AND",0
+98,"RULE 5 (multi-hop access)","AND",0
+99,"hacl('10.10.10.2','10.10.10.3',tcp,'25')","LEAF",1
+100,"RULE 5 (multi-hop access)","AND",0
+101,"RULE 5 (multi-hop access)","AND",0
+102,"RULE 6 (direct network access)","AND",0
+103,"hacl(internet,'10.10.10.3',tcp,'25')","LEAF",1
+104,"networkServiceInfo('10.10.10.3',safari,tcp,'25',someUser)","LEAF",1
+105,"vulExists('10.10.10.3','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+106,"RULE 5 (multi-hop access)","AND",0
+107,"RULE 5 (multi-hop access)","AND",0
+108,"execCode('10.10.10.3',user)","OR",0
+109,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+110,"canAccessHost('10.10.10.3')","OR",0
+111,"RULE 8 (Access a host through executing code on the machine)","AND",0
+112,"RULE 8 (Access a host through executing code on the machine)","AND",0
+113,"hasAccount('10.10.10.3_victim','10.10.10.3',user)","LEAF",1
+114,"principalCompromised('10.10.10.3_victim')","OR",0
+115,"RULE 11 (password sniffing)","AND",0
+116,"RULE 6 (direct network access)","AND",0
+117,"hacl(internet,'10.10.10.21',tcp,'22')","LEAF",1
+118,"networkServiceInfo('10.10.10.21',openssh,tcp,'22',someUser)","LEAF",1
+119,"vulExists('10.10.10.21','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+120,"RULE 2 (remote exploit of a server program)","AND",0
+121,"netAccess('10.10.10.21',tcp,'25')","OR",0
+122,"RULE 5 (multi-hop access)","AND",0
+123,"hacl('10.10.10.1','10.10.10.21',tcp,'25')","LEAF",1
+124,"RULE 5 (multi-hop access)","AND",0
+125,"RULE 5 (multi-hop access)","AND",0
+126,"RULE 5 (multi-hop access)","AND",0
+127,"hacl('10.10.10.2','10.10.10.21',tcp,'25')","LEAF",1
+128,"RULE 5 (multi-hop access)","AND",0
+129,"RULE 5 (multi-hop access)","AND",0
+130,"RULE 5 (multi-hop access)","AND",0
+131,"hacl('10.10.10.3','10.10.10.21',tcp,'25')","LEAF",1
+132,"RULE 5 (multi-hop access)","AND",0
+133,"RULE 5 (multi-hop access)","AND",0
+134,"RULE 6 (direct network access)","AND",0
+135,"hacl(internet,'10.10.10.21',tcp,'25')","LEAF",1
+136,"networkServiceInfo('10.10.10.21',safari,tcp,'25',someUser)","LEAF",1
+137,"vulExists('10.10.10.21','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+138,"execCode('10.10.10.21',user)","OR",0
+139,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+140,"canAccessHost('10.10.10.21')","OR",0
+141,"RULE 8 (Access a host through executing code on the machine)","AND",0
+142,"RULE 8 (Access a host through executing code on the machine)","AND",0
+143,"hasAccount('10.10.10.21_victim','10.10.10.21',user)","LEAF",1
+144,"principalCompromised('10.10.10.21_victim')","OR",0
+145,"RULE 11 (password sniffing)","AND",0
+146,"execCode('10.10.10.22',root)","OR",0
+147,"RULE 1 (local exploit)","AND",0
+148,"vulExists('10.10.10.22','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+149,"execCode('10.10.10.22',someUser)","OR",0
+150,"RULE 2 (remote exploit of a server program)","AND",0
+151,"netAccess('10.10.10.22',tcp,'22')","OR",0
+152,"RULE 5 (multi-hop access)","AND",0
+153,"hacl('10.10.10.1','10.10.10.22',tcp,'22')","LEAF",1
+154,"RULE 5 (multi-hop access)","AND",0
+155,"RULE 5 (multi-hop access)","AND",0
+156,"RULE 5 (multi-hop access)","AND",0
+157,"hacl('10.10.10.2','10.10.10.22',tcp,'22')","LEAF",1
+158,"RULE 5 (multi-hop access)","AND",0
+159,"RULE 5 (multi-hop access)","AND",0
+160,"RULE 5 (multi-hop access)","AND",0
+161,"hacl('10.10.10.21','10.10.10.22',tcp,'22')","LEAF",1
+162,"RULE 5 (multi-hop access)","AND",0
+163,"RULE 5 (multi-hop access)","AND",0
+164,"RULE 5 (multi-hop access)","AND",0
+165,"hacl('10.10.10.3','10.10.10.22',tcp,'22')","LEAF",1
+166,"RULE 5 (multi-hop access)","AND",0
+167,"RULE 5 (multi-hop access)","AND",0
+168,"RULE 6 (direct network access)","AND",0
+169,"hacl(internet,'10.10.10.22',tcp,'22')","LEAF",1
+170,"networkServiceInfo('10.10.10.22',openssh,tcp,'22',someUser)","LEAF",1
+171,"vulExists('10.10.10.22','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+172,"RULE 2 (remote exploit of a server program)","AND",0
+173,"netAccess('10.10.10.22',tcp,'25')","OR",0
+174,"RULE 5 (multi-hop access)","AND",0
+175,"hacl('10.10.10.1','10.10.10.22',tcp,'25')","LEAF",1
+176,"RULE 5 (multi-hop access)","AND",0
+177,"RULE 5 (multi-hop access)","AND",0
+178,"RULE 5 (multi-hop access)","AND",0
+179,"hacl('10.10.10.2','10.10.10.22',tcp,'25')","LEAF",1
+180,"RULE 5 (multi-hop access)","AND",0
+181,"RULE 5 (multi-hop access)","AND",0
+182,"RULE 5 (multi-hop access)","AND",0
+183,"hacl('10.10.10.21','10.10.10.22',tcp,'25')","LEAF",1
+184,"RULE 5 (multi-hop access)","AND",0
+185,"RULE 5 (multi-hop access)","AND",0
+186,"RULE 5 (multi-hop access)","AND",0
+187,"hacl('10.10.10.3','10.10.10.22',tcp,'25')","LEAF",1
+188,"RULE 5 (multi-hop access)","AND",0
+189,"RULE 5 (multi-hop access)","AND",0
+190,"RULE 6 (direct network access)","AND",0
+191,"hacl(internet,'10.10.10.22',tcp,'25')","LEAF",1
+192,"networkServiceInfo('10.10.10.22',safari,tcp,'25',someUser)","LEAF",1
+193,"vulExists('10.10.10.22','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+194,"execCode('10.10.10.22',user)","OR",0
+195,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+196,"canAccessHost('10.10.10.22')","OR",0
+197,"RULE 8 (Access a host through executing code on the machine)","AND",0
+198,"RULE 8 (Access a host through executing code on the machine)","AND",0
+199,"hasAccount('10.10.10.22_victim','10.10.10.22',user)","LEAF",1
+200,"principalCompromised('10.10.10.22_victim')","OR",0
+201,"RULE 11 (password sniffing)","AND",0
+202,"execCode('10.10.10.23',root)","OR",0
+203,"RULE 1 (local exploit)","AND",0
+204,"vulExists('10.10.10.23','CVE-2013-2207',glibc,localExploit,privEscalation)","LEAF",1
+205,"execCode('10.10.10.23',someUser)","OR",0
+206,"RULE 2 (remote exploit of a server program)","AND",0
+207,"netAccess('10.10.10.23',tcp,'22')","OR",0
+208,"RULE 5 (multi-hop access)","AND",0
+209,"hacl('10.10.10.1','10.10.10.23',tcp,'22')","LEAF",1
+210,"RULE 5 (multi-hop access)","AND",0
+211,"RULE 5 (multi-hop access)","AND",0
+212,"RULE 5 (multi-hop access)","AND",0
+213,"hacl('10.10.10.2','10.10.10.23',tcp,'22')","LEAF",1
+214,"RULE 5 (multi-hop access)","AND",0
+215,"RULE 5 (multi-hop access)","AND",0
+216,"RULE 5 (multi-hop access)","AND",0
+217,"hacl('10.10.10.21','10.10.10.23',tcp,'22')","LEAF",1
+218,"RULE 5 (multi-hop access)","AND",0
+219,"RULE 5 (multi-hop access)","AND",0
+220,"RULE 5 (multi-hop access)","AND",0
+221,"hacl('10.10.10.22','10.10.10.23',tcp,'22')","LEAF",1
+222,"RULE 5 (multi-hop access)","AND",0
+223,"RULE 5 (multi-hop access)","AND",0
+224,"RULE 5 (multi-hop access)","AND",0
+225,"hacl('10.10.10.3','10.10.10.23',tcp,'22')","LEAF",1
+226,"RULE 5 (multi-hop access)","AND",0
+227,"RULE 5 (multi-hop access)","AND",0
+228,"RULE 6 (direct network access)","AND",0
+229,"hacl(internet,'10.10.10.23',tcp,'22')","LEAF",1
+230,"networkServiceInfo('10.10.10.23',openssh,tcp,'22',someUser)","LEAF",1
+231,"vulExists('10.10.10.23','CVE-2008-5161',openssh,remoteExploit,privEscalation)","LEAF",1
+232,"RULE 2 (remote exploit of a server program)","AND",0
+233,"netAccess('10.10.10.23',tcp,'25')","OR",0
+234,"RULE 5 (multi-hop access)","AND",0
+235,"hacl('10.10.10.1','10.10.10.23',tcp,'25')","LEAF",1
+236,"RULE 5 (multi-hop access)","AND",0
+237,"RULE 5 (multi-hop access)","AND",0
+238,"RULE 5 (multi-hop access)","AND",0
+239,"hacl('10.10.10.2','10.10.10.23',tcp,'25')","LEAF",1
+240,"RULE 5 (multi-hop access)","AND",0
+241,"RULE 5 (multi-hop access)","AND",0
+242,"RULE 5 (multi-hop access)","AND",0
+243,"hacl('10.10.10.21','10.10.10.23',tcp,'25')","LEAF",1
+244,"RULE 5 (multi-hop access)","AND",0
+245,"RULE 5 (multi-hop access)","AND",0
+246,"RULE 5 (multi-hop access)","AND",0
+247,"hacl('10.10.10.22','10.10.10.23',tcp,'25')","LEAF",1
+248,"RULE 5 (multi-hop access)","AND",0
+249,"RULE 5 (multi-hop access)","AND",0
+250,"RULE 5 (multi-hop access)","AND",0
+251,"hacl('10.10.10.3','10.10.10.23',tcp,'25')","LEAF",1
+252,"RULE 5 (multi-hop access)","AND",0
+253,"RULE 5 (multi-hop access)","AND",0
+254,"RULE 6 (direct network access)","AND",0
+255,"hacl(internet,'10.10.10.23',tcp,'25')","LEAF",1
+256,"networkServiceInfo('10.10.10.23',safari,tcp,'25',someUser)","LEAF",1
+257,"vulExists('10.10.10.23','CVE-2015-2808',safari,remoteExploit,privEscalation)","LEAF",1
+258,"execCode('10.10.10.23',user)","OR",0
+259,"RULE 0 (When a principal is compromised any machine he has an account on will also be compromised)","AND",0
+260,"canAccessHost('10.10.10.23')","OR",0
+261,"RULE 8 (Access a host through executing code on the machine)","AND",0
+262,"RULE 8 (Access a host through executing code on the machine)","AND",0
+263,"hasAccount('10.10.10.23_victim','10.10.10.23',user)","LEAF",1
+264,"principalCompromised('10.10.10.23_victim')","OR",0
+265,"RULE 11 (password sniffing)","AND",0
