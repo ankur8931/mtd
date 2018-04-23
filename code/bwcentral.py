@@ -14,7 +14,7 @@ class BWCentral:
 
         self.G = nx.DiGraph()
         self.SG = nx.DiGraph()
-        self.tree = ET.parse('/home/snac/ESORICS/mtd/data/ag-files/15/AttackGraph.xml')
+        self.tree = ET.parse('/home/snac/ESORICS/mtd/data/ag-files/4/AttackGraph.xml')
         self.root = self.tree.getroot()
 
     def createGraph(self):
