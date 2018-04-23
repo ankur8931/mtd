@@ -64,14 +64,28 @@ class BWCentral:
 
             if self.G.node[node]['type'] == 'vulExists':
 
-                succNodes = list(nx.nodes(nx.dfs_tree(self.G, node)))
+                #succNodes = list(nx.nodes(nx.dfs_tree(self.G, node)))
+                succNodes = list(nx.dfs_tree(self.G, source=node, depth_limit=2))
+
+                succNodes.reverse()
+
+                #print("Node", node)
+            
+                #print("succ", succNodes)
 
                 for sNode in succNodes:
 
-                    if self.G.node[sNode]['type'] == 'execCode' or self.G.node[sNode]['type'] == 'netAccess':
+                    if self.G.node[sNode]['type'] == 'netAccess':
 
                        bw_central[node] = bw_central[sNode]
 
+                       break
+
+                    elif self.G.node[sNode]['type'] == 'execCode':
+
+                       bw_central[node] = bw_central[sNode]
+
+                       break
 
         print(bw_central)
 
